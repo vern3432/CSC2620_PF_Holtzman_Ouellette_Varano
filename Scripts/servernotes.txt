@@ -1,0 +1,96 @@
+package model;
+
+import java.io.InvalidObjectException;
+
+import merrimackutil.json.JSONSerializable;
+import merrimackutil.json.types.JSONObject;
+import merrimackutil.json.types.JSONType;
+
+public class Value implements JSONSerializable {
+
+    private String type = "VALUE";
+    private String srcAddr;
+    private int srcPort;
+    private String key;
+    private String value;
+
+    public Value(JSONObject obj) throws InvalidObjectException 
+    {
+        deserialize(obj);
+    }
+    
+    @Override
+    public void deserialize(JSONType arg0) throws InvalidObjectException {
+        JSONObject obj;
+        if (arg0 instanceof JSONObject) {
+            obj = (JSONObject) arg0;
+        } else {
+            throw new InvalidObjectException("Expected Request - JsonObject.");
+        }
+
+        if (obj.containsKey("type")) {
+            this.type = obj.getString("type");
+        } else {
+            throw new InvalidObjectException("Expected a Request -- type expected.");
+        }
+        if (obj.containsKey("srcAddr")) {
+            this.srcAddr = obj.getString("srcAddr");
+        } else {
+            throw new InvalidObjectException("Expected a Request -- srcAddr expected.");
+        }
+        if (obj.containsKey("srcPort")) {
+            this.srcPort = obj.getInt("srcPort");
+        } else {
+            throw new InvalidObjectException("Expected a Request -- srcPort expected.");
+        }
+        if (obj.containsKey("key")) {
+            this.key = obj.getString("key");
+        } else {
+            throw new InvalidObjectException("Expected a Request -- key expected.");
+        }
+        if (obj.containsKey("value")) {
+            this.value = obj.getString("value");
+        } else {
+            throw new InvalidObjectException("Expected a Request -- value expected.");
+        }
+    }
+
+    @Override
+    public String serialize() {
+        return toJSONType().toJSON();
+    }
+
+    @Override
+    public JSONType toJSONType() {
+        JSONObject obj = new JSONObject();
+        obj.put("type", this.type);
+        obj.put("srcAddr", this.srcAddr);
+        obj.put("srcPort", this.srcPort);
+        obj.put("key", this.key);
+        obj.put("value", this.value);
+        return obj;
+    }
+}
+
+
+look at how this obect implements JSONSerializable, make me a series of classes that represent several things for a chess server client relationship I am making, 
+ 
+1. 
+A request to open a new Game from client, the server responds with a new game id. 
+
+2. 
+A client responds with an existing game id, the server responds with either a valid conncetion to this game or an invalid id error. 
+
+3. 
+
+A client sends a move with a start, a end, and a piece type, 
+
+4. 
+The server sends a request for a new move, which will contain a lot of feilds regarding the 
+
+
+
+
+
+
+
