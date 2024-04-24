@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.networkchess</groupId>
@@ -14,25 +14,29 @@
     </properties>
 
 
-
-    
     <!-- Define dependencies -->
     <dependencies>
-        <!-- Add your dependencies here if any -->
-    </dependencies>
-    
+        <dependency>
+          <groupId>com.example</groupId> <!-- Update this with the actual groupId of merrimackutil.jar -->
+          <artifactId>merrimackutil</artifactId> <!-- Update this with the actual artifactId of merrimackutil.jar -->
+          <version>1.0</version> <!-- Update this with the actual version of merrimackutil.jar -->
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/merrimackutil.jar</systemPath>
+        </dependency>
+      </dependencies>
+      
     <!-- Define build configuration -->
     <build>
         <!-- Define source directory -->
         <sourceDirectory>src/main/java</sourceDirectory>
-        
+
         <!-- Define resources directory -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-        
+
         <!-- Define plugins -->
         <plugins>
             <!-- Plugin for compiling Java code -->
@@ -45,7 +49,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            
+
             <!-- Plugin for creating JAR files -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -66,7 +70,7 @@
                             </includes>
                         </configuration>
                     </execution>
-                    
+
                     <!-- Build JAR for server package -->
                     <execution>
                         <id>server-jar</id>
@@ -82,9 +86,6 @@
                         </configuration>
                     </execution>
                 </executions>
-
-
-
 
 
             </plugin>
@@ -114,22 +115,6 @@
 
         </plugins>
     </build>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </project>
