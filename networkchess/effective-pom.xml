@@ -167,7 +167,7 @@
             <configuration>
               <outputFilename>testdiagram1.txt</outputFilename>
               <scanPackages>
-                <scanPackage>com.gutenberg</scanPackage>
+                <scanPackage>com.networkchess</scanPackage>
               </scanPackages>
             </configuration>
           </execution>
