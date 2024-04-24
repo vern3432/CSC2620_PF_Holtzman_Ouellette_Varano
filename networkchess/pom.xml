@@ -13,4 +13,123 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+
+
+    
+    <!-- Define dependencies -->
+    <dependencies>
+        <!-- Add your dependencies here if any -->
+    </dependencies>
+    
+    <!-- Define build configuration -->
+    <build>
+        <!-- Define source directory -->
+        <sourceDirectory>src/main/java</sourceDirectory>
+        
+        <!-- Define resources directory -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        
+        <!-- Define plugins -->
+        <plugins>
+            <!-- Plugin for compiling Java code -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            
+            <!-- Plugin for creating JAR files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <!-- Build JAR for client package -->
+                    <execution>
+                        <id>client-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>client</classifier>
+                            <includes>
+                                <include>com/networkchess/ChessClient/**</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    
+                    <!-- Build JAR for server package -->
+                    <execution>
+                        <id>server-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>server</classifier>
+                            <includes>
+                                <include>com/networkchess/ServerLogic/**</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+
+
+
+
+
+            </plugin>
+
+            <plugin>
+                <artifactId>plantuml-generator-maven-plugin</artifactId>
+                <groupId>de.elnarion.maven</groupId>
+                <version>1.1.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-simple-diagram</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-test-sources</phase>
+                        <configuration>
+                            <outputFilename>testdiagram1.txt</outputFilename>
+                            <scanPackages>
+                                <scanPackage>
+                                    com.gutenberg
+                                </scanPackage>
+                            </scanPackages>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </project>
