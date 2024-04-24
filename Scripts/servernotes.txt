@@ -94,3 +94,8 @@ The server sends a request for a new move, which will contain a lot of feilds re
 
 
 
+
+
+More Notes; 
+
+//Have a primary conncetion handler that allows for join and start of games. Whne this happens, these connection get thrown to whatever relevant game thread which opens a new conncetion maybe? 
