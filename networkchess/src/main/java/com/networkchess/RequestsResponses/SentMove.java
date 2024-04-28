@@ -6,6 +6,10 @@ import merrimackutil.json.types.JSONObject;
 import merrimackutil.json.types.JSONType;
 
 public class SentMove implements JSONSerializable {
+    String Origin; 
+    String pieceType; 
+    String piecePrevLoc; 
+    String pieceNewLoc; 
 
     @Override
     public void deserialize(JSONType arg0) throws InvalidObjectException {
