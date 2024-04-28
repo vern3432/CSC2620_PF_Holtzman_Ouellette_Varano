@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import merrimackutil.json.JsonIO;
 
 public class ChessServer {
     private int port;
@@ -62,8 +63,7 @@ public class ChessServer {
                     // Read move from player one
                     String moveOne = inputOne.readUTF();
                     MoveRequest moveRequestOne = new MoveRequest(); // Assuming MoveRequest can parse the move
-                    moveRequestOne.deserialize(moveOne);
-
+                    moveRequestOne.deserialize(JsonIO.readObject(new String(moveOne)));
                     // Process move and generate response
                     MoveResponse responseOne = processMove(moveRequestOne);
 
@@ -73,7 +73,7 @@ public class ChessServer {
                     // Read move from player two
                     String moveTwo = inputTwo.readUTF();
                     MoveRequest moveRequestTwo = new MoveRequest(); // Assuming MoveRequest can parse the move
-                    moveRequestTwo.deserialize(moveTwo);
+                    moveRequestTwo.deserialize(JsonIO.readObject(new String(moveTwo)));
 
                     // Process move and generate response
                     MoveResponse responseTwo = processMove(moveRequestTwo);
@@ -91,7 +91,7 @@ public class ChessServer {
 
         private MoveResponse processMove(MoveRequest move) {
             // Logic to process the move
-            return new MoveResponse(); // Placeholder for actual response generation
+            return new MoveResponse(true,"Piece Moved Successfully"); // Placeholder for actual response generation
         }
     }
 
