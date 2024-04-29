@@ -119,6 +119,62 @@ public class Board {
         }
     }
 
+    // All the getter for all the pieces on the board
+    public Bishop getBlackBishopL() {
+        return blackBishopL;
+    }
+    public Bishop getBlackBishopR() {
+        return blackBishopR;
+    }
+    public King getBlackKing() {
+        return blackKing;
+    }
+    public Knight getBlackKnightL() {
+        return blackKnightL;
+    }
+    public Knight getBlackKnightR() {
+        return blackKnightR;
+    }
+    public LinkedList<Pawn> getBlackPawns() {
+        return blackPawns;
+    }
+    public Queen getBlackQueen() {
+        return blackQueen;
+    }
+    public Rook getBlackRookL() {
+        return blackRookL;
+    }
+    public Rook getBlackRookR() {
+        return blackRookR;
+    }
+    public Bishop getWhiteBishopL() {
+        return whiteBishopL;
+    }
+    public Bishop getWhiteBishopR() {
+        return whiteBishopR;
+    }
+    public King getWhiteKing() {
+        return whiteKing;
+    }
+    public Knight getWhiteKnightL() {
+        return whiteKnightL;
+    }
+    public Knight getWhiteKnightR() {
+        return whiteKnightR;
+    }
+    public Rook getWhiteRookL() {
+        return whiteRookL;
+    }
+    public LinkedList<Pawn> getWhitePawns() {
+        return whitePawns;
+    }
+    public Queen getWhiteQueen() {
+        return whiteQueen;
+    }
+    public Rook getWhiteRookR() {
+        return whiteRookR;
+    }
+
     /**
      * Method that returns a piece if there is a piece in that given position, null otherwise
      * 
