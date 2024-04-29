@@ -6,6 +6,7 @@ import merrimackutil.json.types.JSONObject;
 import merrimackutil.json.types.JSONType;
 
 public class JoinGame implements JSONSerializable{
+    String gameId; 
 
     @Override
     public void deserialize(JSONType arg0) throws InvalidObjectException {
