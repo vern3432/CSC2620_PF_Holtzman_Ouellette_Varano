@@ -26,6 +26,9 @@ public class Main {
         Queen queenTest1 = new Queen("white", "4;4", new Board());
         System.out.println("Queen:" +queenTest1.possibleMoves());
 
+        King kingTest = new King("white", "4;4", new Board());
+        System.out.println("King:" +kingTest.possibleMoves());
+
         System.out.println();
 
         System.out.println(new Board());

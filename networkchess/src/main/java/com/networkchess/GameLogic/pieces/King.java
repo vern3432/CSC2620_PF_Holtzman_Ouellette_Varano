@@ -36,9 +36,45 @@ public class King extends Piece {
         return true;
     }
 
+    /**
+     * Checks if a move is possible for the king
+     * 
+     * @return the list of possible moves that can be made
+     */
     @Override
     public LinkedList<String> possibleMoves() {
-        return new LinkedList<>();
+        LinkedList<String> posMoves = new LinkedList<>();
+
+        String[] xy = getCurrPosition().split(";");
+        Integer x = Integer.valueOf(xy[0]);
+        Integer y = Integer.valueOf(xy[1]);
+
+        if (moveCheck(x, y+1)) {
+            posMoves.add(x+";"+(y+1));
+        }
+        if (moveCheck(x+1, y+1)) {
+            posMoves.add((x+1)+";"+(y+1));
+        }
+        if (moveCheck(x+1, y)) {
+            posMoves.add((x+1)+";"+y);
+        }
+        if (moveCheck(x+1, y-1)) {
+            posMoves.add((x+1)+";"+(y-1));
+        }
+        if (moveCheck(x, y-1)) {
+            posMoves.add(x+";"+(y-1));
+        }
+        if (moveCheck(x-1, y-1)) {
+            posMoves.add((x-1)+";"+(y-1));
+        }
+        if (moveCheck(x-1, y)) {
+            posMoves.add((x-1)+";"+y);
+        }
+        if (moveCheck(x-1, y+1)) {
+            posMoves.add((x-1)+";"+(y+1));
+        }
+
+        return posMoves;
     }
 
     @Override
@@ -46,5 +82,32 @@ public class King extends Piece {
         return "King: " + getColor();
     }
 
+    /**
+     * checks if a move is legal for the king
+     * 
+     * @param x posiiton on the board
+     * @param y position on the board
+     * @return true if the move if possible, false otherwise
+     */
+    private Boolean moveCheck(Integer x, Integer y) {
+        Boolean xIn = x <=8 && x >= 1;
+        Boolean yIn = y <=8 && y >= 1;
+
+        if (xIn && yIn) {
+            String position = x + ";" + y;
+            for (Piece key : getCurrBoard().getAttSquares().keySet()) {
+                if (key.isOp(this)) {
+                    if (getCurrBoard().getAttSquares().get(key).contains(position)) {
+                        return false;
+                    } 
+                }
+            }
+
+            return true;
+        }
+        
+        return false;
+
+    }
     
 }
