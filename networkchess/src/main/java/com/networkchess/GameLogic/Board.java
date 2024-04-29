@@ -49,8 +49,8 @@ public class Board {
     private Knight blackKnightQ;
 
     // Instance of all the pawns on the board
-    private LinkedList<Pawn> whitePawns;
-    private LinkedList<Pawn> blackPawns;
+    private LinkedList<Pawn> whitePawns = new LinkedList<>();
+    private LinkedList<Pawn> blackPawns = new LinkedList<>();
 
     /**
      * Builds the board with all the pieces in the correct locations
@@ -358,8 +358,8 @@ public class Board {
 
         String boardPositions = "";
 
-        for (int y = 0; y <= 7; y++) {
-            for (int x = 0; x <= 7; x++) {
+        for (int y = 7; y >= 0; y--) {
+            for (int x = 7; x >= 0; x--) {
                 if (gameBoard[x][y] == null) {
                     boardPositions += "[blank space]";
                 }
