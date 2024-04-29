@@ -225,26 +225,14 @@ public class Board {
 
                 gameBoard[nx][ny] = piece;
                 piece.setCurrPosition(newPosition);
-                if (piece instanceof Pawn) {
-                    attSquares.replace(piece, ((Pawn) piece).posAttackMoves());
-                }
-                else
-                {
-                    attSquares.replace(piece, piece.possibleMoves());
-                }
+                updateAttSquares();
 
                 if (checkCheck(piece.getColor())) {
                     JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
                     gameBoard[nx][ny] = takenP;
                     gameBoard[px][py] = piece;
                     piece.setCurrPosition(prevPosition);
-                    if (piece instanceof Pawn) {
-                        attSquares.replace(piece, ((Pawn) piece).posAttackMoves());
-                    }
-                    else
-                    {
-                        attSquares.replace(piece, piece.possibleMoves());
-                    }
+                    updateAttSquares();
                 }
                 else
                 {
@@ -258,25 +246,13 @@ public class Board {
             {
                 gameBoard[nx][ny] = piece;
                 piece.setCurrPosition(newPosition);
-                if (piece instanceof Pawn) {
-                    attSquares.replace(piece, ((Pawn) piece).posAttackMoves());
-                }
-                else
-                {
-                    attSquares.replace(piece, piece.possibleMoves());
-                }
+                updateAttSquares();
 
                 if (checkCheck(piece.getColor())) {
                     JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
                     gameBoard[px][py] = piece;
                     piece.setCurrPosition(prevPosition);
-                    if (piece instanceof Pawn) {
-                        attSquares.replace(piece, ((Pawn) piece).posAttackMoves());
-                    }
-                    else
-                    {
-                        attSquares.replace(piece, piece.possibleMoves());
-                    }
+                    updateAttSquares();
                 }
                 else
                 {
@@ -346,6 +322,35 @@ public class Board {
      */
     public HashMap<Piece, LinkedList<String>> getAttSquares() {
         return attSquares;
+    }
+    
+    public void updateAttSquares() {
+        for (int x  = 0; x <=7; x++) {
+            for (int y = 0; y <= 7; y++) {
+                if (gameBoard[x][y] != null) {
+                    if (attSquares.keySet().contains(gameBoard[x][y])) {
+                        if (gameBoard[x][y] instanceof Pawn) {
+                            attSquares.get(gameBoard[x][y]).addAll(((Pawn) gameBoard[x][y]).posAttackMoves());
+                        }
+                        else
+                        {
+                            attSquares.get(gameBoard[x][y]).addAll(gameBoard[x][y].possibleMoves());
+                        }
+                    }
+                    else
+                    {
+                        attSquares.put(gameBoard[x][y], new LinkedList<>());
+                        if (gameBoard[x][y] instanceof Pawn) {
+                            attSquares.get(gameBoard[x][y]).addAll(((Pawn) gameBoard[x][y]).posAttackMoves());
+                        }
+                        else
+                        {
+                            attSquares.get(gameBoard[x][y]).addAll(gameBoard[x][y].possibleMoves());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
