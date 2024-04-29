@@ -27,27 +27,28 @@ public class Board {
     // This holds all the possibles move that are currently possible so the kings knows where it can go
     private HashMap<Piece, LinkedList<String>> attSquares = new HashMap<>();
 
+    // Instance of all the single pieces
     private King whiteKing;
     private King blackKing;
-
     private Queen whiteQueen;
     private Queen blackQueen;
 
-    private Rook whiteRookR;
-    private Rook whiteRookL;
-    private Rook blackRookR;
-    private Rook blackRookL;
+    // Instances of all the pieces that appear twice
+    //  (Q means queen side and K means king side)
+    private Rook whiteRookK;
+    private Rook whiteRookQ;
+    private Rook blackRookK;
+    private Rook blackRookQ;
+    private Bishop whiteBishopK;
+    private Bishop whiteBishopQ;
+    private Bishop blackBishopK;
+    private Bishop blackBishopQ;
+    private Knight whiteKnightK;
+    private Knight whiteKnightQ;
+    private Knight blackKnightK;
+    private Knight blackKnightQ;
 
-    private Bishop whiteBishopR;
-    private Bishop whiteBishopL;
-    private Bishop blackBishopR;
-    private Bishop blackBishopL;
-
-    private Knight whiteKnightR;
-    private Knight whiteKnightL;
-    private Knight blackKnightR;
-    private Knight blackKnightL;
-
+    // Instance of all the pawns on the board
     private LinkedList<Pawn> whitePawns;
     private LinkedList<Pawn> blackPawns;
 
@@ -60,44 +61,44 @@ public class Board {
         takenPieces.put("black", new LinkedList<Piece>());
 
         // adds the black pieces to the board
-        this.blackRookL = new Rook("black", "1;8", this);
-        gameBoard[0][7] = this.blackRookL;
-        this.blackKnightL = new Knight("black", "2;8", this);
-        gameBoard[1][7] = this.blackKnightL;
-        this.blackBishopL = new Bishop("black", "3;8", this);
-        gameBoard[2][7] = this.blackBishopL;
+        this.blackRookQ = new Rook("black", "1;8", this);
+        gameBoard[0][7] = this.blackRookQ;
+        this.blackKnightQ = new Knight("black", "2;8", this);
+        gameBoard[1][7] = this.blackKnightQ;
+        this.blackBishopQ = new Bishop("black", "3;8", this);
+        gameBoard[2][7] = this.blackBishopQ;
         this.blackQueen = new Queen("black", "4;8", this);
         gameBoard[3][7] = this.blackQueen;
         this.blackKing = new King("black", "5;8", this);
         gameBoard[4][7] = this.blackKing;
-        this.blackBishopR = new Bishop("black", "6;8", this);
-        gameBoard[5][7] = this.blackBishopR;
-        this.blackKnightR = new Knight("black", "7;8", this);
-        gameBoard[6][7] = this.blackKnightR;
-        this.blackRookR = new Rook("black", "8;8", this);
-        gameBoard[7][7] = this.blackRookR;
+        this.blackBishopK = new Bishop("black", "6;8", this);
+        gameBoard[5][7] = this.blackBishopK;
+        this.blackKnightK = new Knight("black", "7;8", this);
+        gameBoard[6][7] = this.blackKnightK;
+        this.blackRookK = new Rook("black", "8;8", this);
+        gameBoard[7][7] = this.blackRookK;
         for (int i = 0; i <= 7; i++) {  
             this.blackPawns.add(new Pawn("black", (i + 1) + ";7", this));
             gameBoard[i][6] = this.blackPawns.get(i);
         }
 
         // adds the white pieces to the board
-        this.whiteRookL = new Rook("white", "1;1", this);
-        gameBoard[0][0] = this.whiteRookL;
-        this.whiteKnightL = new Knight("white", "2;1", this);
-        gameBoard[1][0] = this.whiteKnightL;
-        this.whiteBishopL = new Bishop("white", "3;1", this);
-        gameBoard[2][0] = this.whiteBishopL;
+        this.whiteRookQ = new Rook("white", "1;1", this);
+        gameBoard[0][0] = this.whiteRookQ;
+        this.whiteKnightQ = new Knight("white", "2;1", this);
+        gameBoard[1][0] = this.whiteKnightQ;
+        this.whiteBishopQ = new Bishop("white", "3;1", this);
+        gameBoard[2][0] = this.whiteBishopQ;
         this.whiteQueen = new Queen("white", "4;1", this);
         gameBoard[3][0] = this.whiteQueen;
         this.whiteKing = new King("white", "5;1", this);
         gameBoard[4][0] = this.whiteKing;
-        this.whiteBishopR = new Bishop("white", "6;1", this);
-        gameBoard[5][0] = this.whiteBishopR;
-        this.whiteKnightR = new Knight("white", "7;1", this);
-        gameBoard[6][0] = this.whiteKnightR;
-        this.whiteRookR = new Rook("white", "8;1", this);
-        gameBoard[7][0] = this.whiteRookR;
+        this.whiteBishopK = new Bishop("white", "6;1", this);
+        gameBoard[5][0] = this.whiteBishopK;
+        this.whiteKnightK = new Knight("white", "7;1", this);
+        gameBoard[6][0] = this.whiteKnightK;
+        this.whiteRookK = new Rook("white", "8;1", this);
+        gameBoard[7][0] = this.whiteRookK;
         for (int i = 0; i <= 7; i++) {
             this.whitePawns.add(new Pawn("white", (i + 1) + ";2", this));
             gameBoard[i][1] = this.whitePawns.get(i);
@@ -120,20 +121,20 @@ public class Board {
     }
 
     // All the getter for all the pieces on the board
-    public Bishop getBlackBishopL() {
-        return blackBishopL;
+    public Bishop getBlackBishopQ() {
+        return blackBishopQ;
     }
-    public Bishop getBlackBishopR() {
-        return blackBishopR;
+    public Bishop getBlackBishopK() {
+        return blackBishopK;
     }
     public King getBlackKing() {
         return blackKing;
     }
-    public Knight getBlackKnightL() {
-        return blackKnightL;
+    public Knight getBlackKnightQ() {
+        return blackKnightQ;
     }
-    public Knight getBlackKnightR() {
-        return blackKnightR;
+    public Knight getBlackKnightK() {
+        return blackKnightK;
     }
     public LinkedList<Pawn> getBlackPawns() {
         return blackPawns;
@@ -141,29 +142,29 @@ public class Board {
     public Queen getBlackQueen() {
         return blackQueen;
     }
-    public Rook getBlackRookL() {
-        return blackRookL;
+    public Rook getBlackRookQ() {
+        return blackRookQ;
     }
-    public Rook getBlackRookR() {
-        return blackRookR;
+    public Rook getBlackRookK() {
+        return blackRookK;
     }
-    public Bishop getWhiteBishopL() {
-        return whiteBishopL;
+    public Bishop getWhiteBishopQ() {
+        return whiteBishopQ;
     }
-    public Bishop getWhiteBishopR() {
-        return whiteBishopR;
+    public Bishop getWhiteBishopK() {
+        return whiteBishopK;
     }
     public King getWhiteKing() {
         return whiteKing;
     }
-    public Knight getWhiteKnightL() {
-        return whiteKnightL;
+    public Knight getWhiteKnightQ() {
+        return whiteKnightQ;
     }
-    public Knight getWhiteKnightR() {
-        return whiteKnightR;
+    public Knight getWhiteKnightK() {
+        return whiteKnightK;
     }
-    public Rook getWhiteRookL() {
-        return whiteRookL;
+    public Rook getWhiteRookQ() {
+        return whiteRookQ;
     }
     public LinkedList<Pawn> getWhitePawns() {
         return whitePawns;
@@ -171,8 +172,8 @@ public class Board {
     public Queen getWhiteQueen() {
         return whiteQueen;
     }
-    public Rook getWhiteRookR() {
-        return whiteRookR;
+    public Rook getWhiteRookK() {
+        return whiteRookK;
     }
 
     /**
