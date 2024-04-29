@@ -30,13 +30,12 @@ public class Rook extends Piece {
      * @param position to try and move the piece too
      */
     @Override
-    public void move(String position) {
+    public Boolean movePos(String position) {
         if (!possibleMoves().contains(position)) {
             JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move");
+            return false;
         }
-
-        getCurrBoard().updateBoard(this, position);
-        setCurrPosition(position);
+        return true;
     }
 
     /**
@@ -128,5 +127,9 @@ public class Rook extends Piece {
         return posMoves;
     }
 
+    @Override
+    public String toString() {
+        return "Rook: " + getColor();
+    }
     
 }

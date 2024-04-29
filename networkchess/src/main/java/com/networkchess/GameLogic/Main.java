@@ -1,11 +1,13 @@
 
 package com.networkchess.GameLogic;
+
 import com.networkchess.GameLogic.pieces.*;
 /**
  * Main
  */
 public class Main {
     public static void main(String[] args) {
+
         Pawn testW = new Pawn("white", "2;2", new Board());
         System.out.println("White:" +testW.possibleMoves());
 
@@ -24,8 +26,9 @@ public class Main {
         Queen queenTest1 = new Queen("white", "4;4", new Board());
         System.out.println("Queen:" +queenTest1.possibleMoves());
 
+        System.out.println();
 
-
+        System.out.println(new Board());
 
     }
 }

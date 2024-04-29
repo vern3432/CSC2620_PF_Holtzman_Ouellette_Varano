@@ -28,19 +28,22 @@ public class King extends Piece {
      * @param position to try and move the piece too
      */
     @Override
-    public void move(String position) {
+    public Boolean movePos(String position) {
         if (!possibleMoves().contains(position)) {
             JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move");
+            return false;
         }
-        
-        getCurrBoard().updateBoard(this, position);
-        setCurrPosition(position);
+        return true;
     }
 
     @Override
     public LinkedList<String> possibleMoves() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'possibleMoves'");
+        return new LinkedList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "King: " + getColor();
     }
 
     

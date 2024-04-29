@@ -59,7 +59,7 @@ public abstract class Piece {
      * 
      * @param position to try and move the piece too
      */
-    public abstract void move(String position);
+    public abstract Boolean movePos(String position);
 
     /**
      * Looks at the board and checks to see all the possible moves that the piece can make
