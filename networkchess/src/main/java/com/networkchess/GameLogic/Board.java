@@ -361,7 +361,7 @@ public class Board {
         for (int y = 7; y >= 0; y--) {
             for (int x = 7; x >= 0; x--) {
                 if (gameBoard[x][y] == null) {
-                    boardPositions += "[blank space]";
+                    boardPositions += "[ ]";
                 }
                 else
                 {

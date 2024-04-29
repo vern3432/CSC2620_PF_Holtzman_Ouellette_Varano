@@ -93,7 +93,13 @@ public class Knight extends Piece {
 
     @Override
     public String toString() {
-        return "Knight: " + getColor();
+        if (getColor().equals("white")) {
+            return "N";
+        }
+        else
+        {
+            return "n";
+        }
     }
 
 }

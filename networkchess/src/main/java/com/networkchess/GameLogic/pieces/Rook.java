@@ -129,7 +129,13 @@ public class Rook extends Piece {
 
     @Override
     public String toString() {
-        return "Rook: " + getColor();
+        if (getColor().equals("white")) {
+            return "R";
+        }
+        else
+        {
+            return "r";
+        }
     }
     
 }

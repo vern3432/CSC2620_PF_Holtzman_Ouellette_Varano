@@ -79,7 +79,13 @@ public class King extends Piece {
 
     @Override
     public String toString() {
-        return "King: " + getColor();
+        if (getColor().equals("white")) {
+            return "K";
+        }
+        else
+        {
+            return "k";
+        }
     }
 
     /**
