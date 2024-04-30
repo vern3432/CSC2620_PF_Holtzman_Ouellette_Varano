@@ -10,6 +10,8 @@ import javax.swing.JPanel;
  */
 public class King extends Piece {
 
+    private Boolean movedYet = false;
+
     /**
      * Constructs the King piece with the proper information
      * 
@@ -73,6 +75,12 @@ public class King extends Piece {
         if (moveCheck(x-1, y+1)) {
             posMoves.add((x-1)+";"+(y+1));
         }
+        if (queenSideCastle()) {
+            posMoves.add("O-O-O");
+        }
+        if (kingSideCastle()) {
+            posMoves.add("O-O");
+        }
 
         return posMoves;
     }
@@ -86,6 +94,10 @@ public class King extends Piece {
         {
             return "k";
         }
+    }
+
+    public void moved() {
+        this.movedYet = true;
     }
 
     /**
@@ -113,6 +125,86 @@ public class King extends Piece {
         }
         
         return false;
+
+    }
+
+    private Boolean queenSideCastle() {
+        Board b = getCurrBoard();
+        Rook rookQS = null;
+        if (getColor().equals("white")) {
+            rookQS = b.getWhiteRookQ();
+            if (!rookQS.getMovedYet() &&
+                b.getPosition(5,1) == null &&
+                b.getPosition(6,1) == null &&
+                b.getPosition(7,1) == null) {
+                for (Piece key : b.getAttSquares().keySet()) {
+                    if (key.isOp(this) &&
+                        !b.getAttSquares().get(key).contains("5;1") &&
+                        !b.getAttSquares().get(key).contains("6;1") &&
+                        !b.getAttSquares().get(key).contains("7;1")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        else
+        {
+            rookQS = b.getBlackRookQ();
+            if (!rookQS.getMovedYet() &&
+                b.getPosition(5,1) == null &&
+                b.getPosition(6,1) == null &&
+                b.getPosition(7,1) == null) {
+                for (Piece key : b.getAttSquares().keySet()) {
+                    if (key.isOp(this) &&
+                        !b.getAttSquares().get(key).contains("5;1") &&
+                        !b.getAttSquares().get(key).contains("6;1") &&
+                        !b.getAttSquares().get(key).contains("7;1")) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+    }
+
+    private Boolean kingSideCastle() {
+        Board b = getCurrBoard();
+        Rook rookKS = null;
+        if (getColor().equals("white")) {
+            rookKS = b.getWhiteRookK();
+            if (!rookKS.getMovedYet() &&
+                b.getPosition(2,1) == null &&
+                b.getPosition(3,1) == null) {
+                for (Piece key : b.getAttSquares().keySet()) {
+                    if (key.isOp(this) &&
+                        !b.getAttSquares().get(key).contains("3;1") &&
+                        !b.getAttSquares().get(key).contains("2;1")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        else
+        {
+            rookKS = b.getBlackRookK();
+            if (!rookKS.getMovedYet() &&
+                b.getPosition(2,1) == null &&
+                b.getPosition(3,1) == null) {
+                for (Piece key : b.getAttSquares().keySet()) {
+                    if (key.isOp(this) &&
+                        !b.getAttSquares().get(key).contains("2;1") &&
+                        !b.getAttSquares().get(key).contains("3;1")) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
     }
     

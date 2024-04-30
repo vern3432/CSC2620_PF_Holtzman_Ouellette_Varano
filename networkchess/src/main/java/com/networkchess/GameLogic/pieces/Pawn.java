@@ -189,6 +189,10 @@ public class Pawn extends Piece {
         return posAttMoves;
     }
 
+    public void moved() {
+        this.movedYet = true;
+    }
+
     @Override
     public String toString() {
         if (getColor().equals("white")) {
