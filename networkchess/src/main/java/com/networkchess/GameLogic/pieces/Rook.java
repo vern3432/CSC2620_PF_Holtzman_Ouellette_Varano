@@ -137,5 +137,13 @@ public class Rook extends Piece {
             return "r";
         }
     }
+
+    public void moved() {
+        this.movedYet = true;
+    }
+
+    public Boolean getMovedYet() {
+        return movedYet;
+    }
     
 }

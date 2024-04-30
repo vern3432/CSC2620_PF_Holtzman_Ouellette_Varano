@@ -238,6 +238,15 @@ public class Board {
                 {
                     takenPieces.get(takenP.getColor().toLowerCase()).add(takenP);
                     attSquares.remove(takenP);
+                    if (piece instanceof Pawn) {
+                        ((Pawn) piece).moved();
+                    }
+                    if (piece instanceof King) {
+                        ((King) piece).moved();
+                    }
+                    if (piece instanceof Rook) {
+                        ((Rook) piece).moved();
+                    }
                     this.moveNum++;
                 }
 
@@ -256,6 +265,15 @@ public class Board {
                 }
                 else
                 {
+                    if (piece instanceof Pawn) {
+                        ((Pawn) piece).moved();
+                    }
+                    if (piece instanceof King) {
+                        ((King) piece).moved();
+                    }
+                    if (piece instanceof Rook) {
+                        ((Rook) piece).moved();
+                    }
                     this.moveNum++;
                 }
             }
@@ -358,7 +376,9 @@ public class Board {
 
         String boardPositions = "";
 
+        boardPositions += "    [a][b][c][d][e][f][g][h]\n\n";
         for (int y = 7; y >= 0; y--) {
+            boardPositions += "[" + (y+1) + "] ";
             for (int x = 7; x >= 0; x--) {
                 if (gameBoard[x][y] == null) {
                     boardPositions += "[ ]";
