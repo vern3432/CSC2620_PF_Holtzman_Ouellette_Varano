@@ -8,10 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Model is our internal representation of the chess game which deals with updating the board and communicating with the server
- * Model should run on a separate thread so it can wait for server updates
- */
 public class Model extends JPanel implements Runnable {
     /**
      * Board object which has all of our peices
