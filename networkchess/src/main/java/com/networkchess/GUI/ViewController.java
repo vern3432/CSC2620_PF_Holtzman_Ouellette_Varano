@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+/**
+ * ViewController is responsible for the view and Controlling the actions of our GUI
+ */
 public class ViewController extends JFrame {
     /**
      * Jpanel in center that holds current chess game
@@ -27,13 +30,22 @@ public class ViewController extends JFrame {
      * HashMap with each of our games
      */
     private HashMap<String,Model> games = new HashMap<>();
+    /**
+     * Current game being viewed
+     * This may be useful in the future such as with "surrender" button
+     */
     private Model currGame;
 
+    /**
+     * Constructor creates ViewController as JFrame
+     */
     public ViewController() {
         super("SAS Chess"); //Sean Aidan Seth
 
+        //use border layout
         this.setLayout(new BorderLayout());
 
+        //set the center panel to a card layout and add it to the center
         chessPanel.setLayout(centerCard);
         this.add(chessPanel, BorderLayout.CENTER);
 
@@ -51,13 +63,14 @@ public class ViewController extends JFrame {
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //show menu screen when button is pressed
                 centerCard.show(chessPanel,"_menu");
 
                 revalidate();
             }
         });
 
-
+        //Create new game button
         JButton newGame = new JButton("New game");
         newGame.addActionListener(new ActionListener() {
             @Override
@@ -75,20 +88,28 @@ public class ViewController extends JFrame {
                     JOptionPane.showMessageDialog(null,"Game name is already taken please try again");
                     return;
                 }
+
+                //add game based on name
                 addGame(input);
             }
         });
 
+        //create buttonholder and add buttons
         JPanel buttonHolder = new JPanel(new GridLayout(1,10,10,10));
         buttonHolder.add(menuButton);
         buttonHolder.add(newGame);
 
+        //add button holder to north
         this.add(buttonHolder,BorderLayout.NORTH);
 
-
+        //add game buttons to east(this may be changed just easy)
         this.add(gameButtons,BorderLayout.EAST);
     }
 
+    /**
+     * Adds a new game with a button to view that game and a new Model to represent that game
+     * @param name Name given to game
+     */
     private void addGame(String name) {
         //add game to list of games
         games.put(name, new Model(name));
@@ -96,8 +117,9 @@ public class ViewController extends JFrame {
         //add game to game panel in center
         chessPanel.add(name, games.get(name));
 
+        //button to view game
         JButton newGameButton = new JButton(name);
-
+        //when pressed show game
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,6 +136,7 @@ public class ViewController extends JFrame {
         gameButtons.add(newGameButton);
 
         //set and show the new game
+        //when we create a game we most likely want to go directly to it
         currGame = games.get(name);
         centerCard.show(chessPanel,name);
 
