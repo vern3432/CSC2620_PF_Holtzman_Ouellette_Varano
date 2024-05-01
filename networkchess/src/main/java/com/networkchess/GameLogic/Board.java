@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class Board {
 
     // The move number of the game
-    private Integer moveNum;
+    private Integer moveNum = 0;
     // Stores the pieces that have been taken by color
     private HashMap<String, LinkedList<Piece>> takenPieces = new HashMap<>();
     // This is the current game board that 
@@ -206,12 +206,12 @@ public class Board {
             {
                 String prevPosition = piece.getCurrPosition();
                 String[] pxy = prevPosition.split(";");
-                Integer px = Integer.valueOf(pxy[0]);
-                Integer py = Integer.valueOf(pxy[1]);
+                Integer px = Integer.valueOf(pxy[0]) - 1;
+                Integer py = Integer.valueOf(pxy[1]) - 1;
                 
                 String[] nxy = newPosition.split(";");
-                Integer nx = Integer.valueOf(nxy[0]);
-                Integer ny = Integer.valueOf(nxy[1]);
+                Integer nx = Integer.valueOf(nxy[0]) - 1;
+                Integer ny = Integer.valueOf(nxy[1]) - 1;
 
                 gameBoard[px][py] = null;
                 if (piece instanceof Pawn && ny == 8) {
@@ -253,6 +253,7 @@ public class Board {
                         if (piece instanceof Rook) {
                             ((Rook) piece).moved();
                         }
+                        gameBoard[px][py] = null;
                         this.moveNum++;
                     }
 
@@ -280,6 +281,7 @@ public class Board {
                         if (piece instanceof Rook) {
                             ((Rook) piece).moved();
                         }
+                        gameBoard[px][py] = null;
                         this.moveNum++;
                     }
                 }

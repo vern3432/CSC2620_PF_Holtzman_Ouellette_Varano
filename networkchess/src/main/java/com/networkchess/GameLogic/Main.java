@@ -35,11 +35,11 @@ public class Main {
 
         System.out.println(b);
 
-        System.out.println(b.getPosition(5, 1).possibleMoves());
-        System.out.println(b.getPosition(5, 1).getClass());
-        System.out.println(b.getPosition(5, 1).getColor());
+        System.out.println(b.getPosition(5, 2).possibleMoves());
+        System.out.println(b.getPosition(5, 2).getClass());
+        System.out.println(b.getPosition(5, 2).getColor());
 
-        b.updateBoard(b.getPosition(5, 1), "O-O-O");
+        b.updateBoard(b.getPosition(5, 2), "5;4");
 
         System.out.println("");
         System.out.println(b);
