@@ -74,7 +74,7 @@ public class Model extends JPanel implements Runnable {
             //add row label math magic used to get rows in "reverse order"
             JLabel rowButton = new JLabel(String.valueOf((row-9) * -1));
             gameJpanel.add(rowButton,gridBagConstraints);
-            for (int column = 8; column >= 1; column--) {
+            for (int column = 1; column <= 8; column++) {
                 //increase x
                 gridBagConstraints.gridx += 1;
 
@@ -99,7 +99,7 @@ public class Model extends JPanel implements Runnable {
                             }
 
                             //move piece
-                            board.updateBoard(currPiece,currPiece.getCurrPosition(),input);
+                            board.updateBoard(currPiece,input);
 
                             //update board
                             updateGame();
