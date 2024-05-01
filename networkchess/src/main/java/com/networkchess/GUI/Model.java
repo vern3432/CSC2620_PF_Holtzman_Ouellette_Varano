@@ -8,6 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Model is our internal representation of the chess game which deals with updating the board and communicating with the server
+ * Model should run on a separate thread so it can wait for server updates
+ */
 public class Model extends JPanel implements Runnable {
     /**
      * Board object which has all of our peices
@@ -56,14 +60,13 @@ public class Model extends JPanel implements Runnable {
     private void updateGame() {
         //create new game Jpanel
         JPanel gameJpanel = new JPanel(new GridBagLayout());
-        gameJpanel.setBackground(new Color(209, 135, 61));
 
         //set grid bag constants to place buttons
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(35, 35, 35, 35);
+        gridBagConstraints.insets = new Insets(10, 10, 10, 10);
 
         //create chessboard row by row
-        for (int row = 8; row >= 1; row--) {
+        for (int row =1; row <= 8; row++) {
             //increase the row and columns when placing items
             gridBagConstraints.gridy += 1;
             gridBagConstraints.gridx += 1;
@@ -96,7 +99,7 @@ public class Model extends JPanel implements Runnable {
                             }
 
                             //move piece
-                            board.updateBoard(currPiece,input);
+                            board.updateBoard(currPiece,currPiece.getCurrPosition(),input);
 
                             //update board
                             updateGame();
