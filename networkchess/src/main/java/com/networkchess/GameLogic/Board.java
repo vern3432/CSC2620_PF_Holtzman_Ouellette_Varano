@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class Board {
 
     // The move number of the game
-    private Integer moveNum;
+    private Integer moveNum = 0;
     // Stores the pieces that have been taken by color
     private HashMap<String, LinkedList<Piece>> takenPieces = new HashMap<>();
     // This is the current game board that 
