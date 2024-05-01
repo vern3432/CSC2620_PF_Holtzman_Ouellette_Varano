@@ -3,6 +3,7 @@ import com.networkchess.GameLogic.pieces.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,8 @@ public class Board {
     private Piece[][] gameBoard = new Piece[8][8];
     // This holds all the possibles move that are currently possible so the kings knows where it can go
     private HashMap<Piece, LinkedList<String>> attSquares = new HashMap<>();
+
+    PromotionPopUp popUp;
 
     // Instance of all the single pieces
     private King whiteKing;
@@ -118,62 +121,10 @@ public class Board {
                 }
             }
         }
-    }
 
-    // All the getter for all the pieces on the board
-    public Bishop getBlackBishopQ() {
-        return blackBishopQ;
-    }
-    public Bishop getBlackBishopK() {
-        return blackBishopK;
-    }
-    public King getBlackKing() {
-        return blackKing;
-    }
-    public Knight getBlackKnightQ() {
-        return blackKnightQ;
-    }
-    public Knight getBlackKnightK() {
-        return blackKnightK;
-    }
-    public LinkedList<Pawn> getBlackPawns() {
-        return blackPawns;
-    }
-    public Queen getBlackQueen() {
-        return blackQueen;
-    }
-    public Rook getBlackRookQ() {
-        return blackRookQ;
-    }
-    public Rook getBlackRookK() {
-        return blackRookK;
-    }
-    public Bishop getWhiteBishopQ() {
-        return whiteBishopQ;
-    }
-    public Bishop getWhiteBishopK() {
-        return whiteBishopK;
-    }
-    public King getWhiteKing() {
-        return whiteKing;
-    }
-    public Knight getWhiteKnightQ() {
-        return whiteKnightQ;
-    }
-    public Knight getWhiteKnightK() {
-        return whiteKnightK;
-    }
-    public Rook getWhiteRookQ() {
-        return whiteRookQ;
-    }
-    public LinkedList<Pawn> getWhitePawns() {
-        return whitePawns;
-    }
-    public Queen getWhiteQueen() {
-        return whiteQueen;
-    }
-    public Rook getWhiteRookK() {
-        return whiteRookK;
+        popUp = new PromotionPopUp(this);
+        popUp.setSize(800, 500);
+        popUp.setVisible(false);
     }
 
     /**
@@ -195,88 +146,145 @@ public class Board {
      * @param prevPosition that the piece is at
      * @param newPosition that the piece is going to
      */
-    public void updateBoard(Piece piece, String prevPosition, String newPosition) {
+    public void updateBoard(Piece piece, String newPosition) {
         if (piece.movePos(newPosition)) {  
-            String[] pxy = newPosition.split(";");
-            Integer px = Integer.valueOf(pxy[0]);
-            Integer py = Integer.valueOf(pxy[1]);
-            
-            String[] nxy = newPosition.split(";");
-            Integer nx = Integer.valueOf(nxy[0]);
-            Integer ny = Integer.valueOf(nxy[1]);
+            if (newPosition.equals("O-O")) {
+                if (piece.getColor().equals("white")) {
+                    Piece king = gameBoard[4][0];
+                    Piece rook = gameBoard[7][0];
 
-            gameBoard[px][py] = null;
-            if (piece instanceof Pawn && ny == 8) {
-                if (checkCheck(piece.getColor())) {
-                    JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
-                    gameBoard[px][py] = piece;
+                    gameBoard[4][0] = null;
+                    gameBoard[7][0] = null;
+
+                    gameBoard[6][0] = king;
+                    king.setCurrPosition(7+";"+1);
+                    gameBoard[5][0] = rook;
+                    rook.setCurrPosition(6+";"+1);
                 }
                 else
                 {
-                    piece.setCurrPosition(newPosition);
-                
-                    PromotionPopUp popUp = new PromotionPopUp(this, (Pawn) piece);
-                    popUp.setSize(800, 500);
-                    popUp.setVisible(true);
+                    Piece king = gameBoard[4][7];
+                    Piece rook = gameBoard[0][7];
+
+                    gameBoard[4][7] = null;
+                    gameBoard[7][7] = null;
+
+                    gameBoard[6][7] = king;
+                    king.setCurrPosition(7+";"+8);
+                    gameBoard[5][7] = rook;
+                    rook.setCurrPosition(6+";"+8);
                 }
             }
-            else if (gameBoard[nx][ny] != null) {
-                Piece takenP = gameBoard[nx][ny];
+            else if (newPosition.equals("O-O-O")) {
+                if (piece.getColor().equals("white")) {
+                    Piece king = gameBoard[4][0];
+                    Piece rook = gameBoard[0][0];
 
-                gameBoard[nx][ny] = piece;
-                piece.setCurrPosition(newPosition);
-                updateAttSquares();
+                    gameBoard[4][0] = null;
+                    gameBoard[0][0] = null;
 
-                if (checkCheck(piece.getColor())) {
-                    JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
-                    gameBoard[nx][ny] = takenP;
-                    gameBoard[px][py] = piece;
-                    piece.setCurrPosition(prevPosition);
-                    updateAttSquares();
+                    gameBoard[2][0] = king;
+                    king.setCurrPosition(3+";"+1);
+                    gameBoard[3][0] = rook;
+                    rook.setCurrPosition(4+";"+1);
                 }
                 else
                 {
-                    takenPieces.get(takenP.getColor().toLowerCase()).add(takenP);
-                    attSquares.remove(takenP);
-                    if (piece instanceof Pawn) {
-                        ((Pawn) piece).moved();
-                    }
-                    if (piece instanceof King) {
-                        ((King) piece).moved();
-                    }
-                    if (piece instanceof Rook) {
-                        ((Rook) piece).moved();
-                    }
-                    this.moveNum++;
-                }
+                    Piece king = gameBoard[4][7];
+                    Piece rook = gameBoard[0][7];
 
+                    gameBoard[4][7] = null;
+                    gameBoard[0][7] = null;
+
+                    gameBoard[2][7] = king;
+                    king.setCurrPosition(3+";"+8);
+                    gameBoard[3][7] = rook;
+                    rook.setCurrPosition(4+";"+8);
+                }
             }
-            else
+            else 
             {
-                gameBoard[nx][ny] = piece;
-                piece.setCurrPosition(newPosition);
-                updateAttSquares();
+                String prevPosition = piece.getCurrPosition();
+                String[] pxy = prevPosition.split(";");
+                Integer px = Integer.valueOf(pxy[0]);
+                Integer py = Integer.valueOf(pxy[1]);
+                
+                String[] nxy = newPosition.split(";");
+                Integer nx = Integer.valueOf(nxy[0]);
+                Integer ny = Integer.valueOf(nxy[1]);
 
-                if (checkCheck(piece.getColor())) {
-                    JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
-                    gameBoard[px][py] = piece;
-                    piece.setCurrPosition(prevPosition);
+                gameBoard[px][py] = null;
+                if (piece instanceof Pawn && ny == 8) {
+                    if (checkCheck(piece.getColor())) {
+                        JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
+                        gameBoard[px][py] = piece;
+                    }
+                    else
+                    {
+                        piece.setCurrPosition(newPosition);
+                        popUp.setPiece((Pawn) piece);
+                        popUp.setVisible(true);
+                    }
+                }
+                else if (gameBoard[nx][ny] != null) {
+                    Piece takenP = gameBoard[nx][ny];
+
+                    gameBoard[nx][ny] = piece;
+                    piece.setCurrPosition(newPosition);
                     updateAttSquares();
+
+                    if (checkCheck(piece.getColor())) {
+                        JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
+                        gameBoard[nx][ny] = takenP;
+                        gameBoard[px][py] = piece;
+                        piece.setCurrPosition(prevPosition);
+                        updateAttSquares();
+                    }
+                    else
+                    {
+                        takenPieces.get(takenP.getColor().toLowerCase()).add(takenP);
+                        attSquares.remove(takenP);
+                        if (piece instanceof Pawn) {
+                            ((Pawn) piece).moved();
+                        }
+                        if (piece instanceof King) {
+                            ((King) piece).moved();
+                        }
+                        if (piece instanceof Rook) {
+                            ((Rook) piece).moved();
+                        }
+                        this.moveNum++;
+                    }
+
                 }
                 else
                 {
-                    if (piece instanceof Pawn) {
-                        ((Pawn) piece).moved();
+                    gameBoard[nx][ny] = piece;
+                    piece.setCurrPosition(newPosition);
+                    updateAttSquares();
+
+                    if (checkCheck(piece.getColor())) {
+                        JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
+                        gameBoard[px][py] = piece;
+                        piece.setCurrPosition(prevPosition);
+                        updateAttSquares();
                     }
-                    if (piece instanceof King) {
-                        ((King) piece).moved();
+                    else
+                    {
+                        if (piece instanceof Pawn) {
+                            ((Pawn) piece).moved();
+                        }
+                        if (piece instanceof King) {
+                            ((King) piece).moved();
+                        }
+                        if (piece instanceof Rook) {
+                            ((Rook) piece).moved();
+                        }
+                        this.moveNum++;
                     }
-                    if (piece instanceof Rook) {
-                        ((Rook) piece).moved();
-                    }
-                    this.moveNum++;
                 }
             }
+            
         }
     }
 
@@ -290,6 +298,8 @@ public class Board {
         String[] xy = p.getCurrPosition().split(";");
         Integer x = Integer.valueOf(xy[0]);
         Integer y = Integer.valueOf(xy[1]);
+
+        popUp.setVisible(false);
         
         gameBoard[x][y] = np;
         this.moveNum++;
@@ -379,7 +389,7 @@ public class Board {
         boardPositions += "    [a][b][c][d][e][f][g][h]\n\n";
         for (int y = 7; y >= 0; y--) {
             boardPositions += "[" + (y+1) + "] ";
-            for (int x = 7; x >= 0; x--) {
+            for (int x = 0; x <= 7; x++) {
                 if (gameBoard[x][y] == null) {
                     boardPositions += "[ ]";
                 }
@@ -397,9 +407,9 @@ public class Board {
     public class PromotionPopUp extends JFrame {
 
         private Piece promotedToPiece;
-        private JFrame window = this;
+        private Pawn piece;
 
-        public PromotionPopUp(Board b, Pawn piece) {
+        public PromotionPopUp(Board b) {
             super("Pawn Promotion");
 
             GridLayout mainGrid = new GridLayout(2, 1, 5, 5);
@@ -417,7 +427,7 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Queen(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    window.dispose();
+                    piece = null;
                 }
             });
             buttonPanel.add(qButton);
@@ -428,7 +438,7 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Rook(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    window.dispose();
+                    piece = null;
                 }
             });
             buttonPanel.add(rButton);
@@ -439,7 +449,7 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Knight(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    window.dispose();
+                    piece = null;
                 }
             });
             buttonPanel.add(kButton);
@@ -450,7 +460,7 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Bishop(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    window.dispose();
+                    piece = null;
                 }
             });
             buttonPanel.add(bButton);
@@ -460,6 +470,10 @@ public class Board {
 
         public Piece getPromotedToPiece() {
             return promotedToPiece;
+        }
+
+        public void setPiece(Pawn piece2) {
+            this.piece = piece2;
         }
 
     }

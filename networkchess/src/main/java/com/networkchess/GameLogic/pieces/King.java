@@ -113,15 +113,30 @@ public class King extends Piece {
 
         if (xIn && yIn) {
             String position = x + ";" + y;
-            for (Piece key : getCurrBoard().getAttSquares().keySet()) {
-                if (key.isOp(this)) {
-                    if (getCurrBoard().getAttSquares().get(key).contains(position)) {
-                        return false;
-                    } 
+            if (getCurrBoard().getPosition(x, y) == null) {
+                for (Piece key : getCurrBoard().getAttSquares().keySet()) {
+                    if (key.isOp(this)) {
+                        if (getCurrBoard().getAttSquares().get(key).contains(position)) {
+                            return false;
+                        } 
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
             }
-
-            return true;
+            else
+            {
+                if (getCurrBoard().getPosition(x, y).isOp(this)) {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            
         }
         
         return false;
@@ -132,16 +147,16 @@ public class King extends Piece {
         Board b = getCurrBoard();
         Rook rookQS = null;
         if (getColor().equals("white")) {
-            rookQS = b.getWhiteRookQ();
+            rookQS = (Rook) b.getPosition(8, 1);
             if (!rookQS.getMovedYet() &&
-                b.getPosition(5,1) == null &&
-                b.getPosition(6,1) == null &&
-                b.getPosition(7,1) == null) {
+                b.getPosition(2,1) == null &&
+                b.getPosition(3,1) == null &&
+                b.getPosition(4,1) == null) {
                 for (Piece key : b.getAttSquares().keySet()) {
                     if (key.isOp(this) &&
-                        !b.getAttSquares().get(key).contains("5;1") &&
-                        !b.getAttSquares().get(key).contains("6;1") &&
-                        !b.getAttSquares().get(key).contains("7;1")) {
+                        !b.getAttSquares().get(key).contains("2;1") &&
+                        !b.getAttSquares().get(key).contains("3;1") &&
+                        !b.getAttSquares().get(key).contains("4;1")) {
                         return true;
                     }
                 }
@@ -150,16 +165,16 @@ public class King extends Piece {
         }
         else
         {
-            rookQS = b.getBlackRookQ();
+            rookQS = (Rook) b.getPosition(8, 8);
             if (!rookQS.getMovedYet() &&
-                b.getPosition(5,1) == null &&
-                b.getPosition(6,1) == null &&
-                b.getPosition(7,1) == null) {
+                b.getPosition(2,8) == null &&
+                b.getPosition(3,8) == null &&
+                b.getPosition(4,8) == null) {
                 for (Piece key : b.getAttSquares().keySet()) {
                     if (key.isOp(this) &&
-                        !b.getAttSquares().get(key).contains("5;1") &&
-                        !b.getAttSquares().get(key).contains("6;1") &&
-                        !b.getAttSquares().get(key).contains("7;1")) {
+                        !b.getAttSquares().get(key).contains("2;8") &&
+                        !b.getAttSquares().get(key).contains("3;8") &&
+                        !b.getAttSquares().get(key).contains("4;8")) {
                         return true;
                     }
                 }
@@ -174,14 +189,14 @@ public class King extends Piece {
         Board b = getCurrBoard();
         Rook rookKS = null;
         if (getColor().equals("white")) {
-            rookKS = b.getWhiteRookK();
+            rookKS = (Rook) b.getPosition(1, 1);
             if (!rookKS.getMovedYet() &&
-                b.getPosition(2,1) == null &&
-                b.getPosition(3,1) == null) {
+                b.getPosition(6,1) == null &&
+                b.getPosition(7,1) == null) {
                 for (Piece key : b.getAttSquares().keySet()) {
                     if (key.isOp(this) &&
-                        !b.getAttSquares().get(key).contains("3;1") &&
-                        !b.getAttSquares().get(key).contains("2;1")) {
+                        !b.getAttSquares().get(key).contains("6;1") &&
+                        !b.getAttSquares().get(key).contains("7;1")) {
                         return true;
                     }
                 }
@@ -190,14 +205,14 @@ public class King extends Piece {
         }
         else
         {
-            rookKS = b.getBlackRookK();
+            rookKS = (Rook) b.getPosition(1, 8);
             if (!rookKS.getMovedYet() &&
-                b.getPosition(2,1) == null &&
-                b.getPosition(3,1) == null) {
+                b.getPosition(6,1) == null &&
+                b.getPosition(7,1) == null) {
                 for (Piece key : b.getAttSquares().keySet()) {
                     if (key.isOp(this) &&
-                        !b.getAttSquares().get(key).contains("2;1") &&
-                        !b.getAttSquares().get(key).contains("3;1")) {
+                        !b.getAttSquares().get(key).contains("6;1") &&
+                        !b.getAttSquares().get(key).contains("7;1")) {
                         return true;
                     }
                 }
