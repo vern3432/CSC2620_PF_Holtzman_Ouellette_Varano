@@ -66,7 +66,7 @@ public class Model extends JPanel implements Runnable {
         gridBagConstraints.insets = new Insets(10, 10, 10, 10);
 
         //create chessboard row by row
-        for (int row =1; row <= 8; row++) {
+        for (int row = 8; row >= 1; row--) {
             //increase the row and columns when placing items
             gridBagConstraints.gridy += 1;
             gridBagConstraints.gridx += 1;
@@ -74,7 +74,7 @@ public class Model extends JPanel implements Runnable {
             //add row label math magic used to get rows in "reverse order"
             JLabel rowButton = new JLabel(String.valueOf((row-9) * -1));
             gameJpanel.add(rowButton,gridBagConstraints);
-            for (int column = 1; column <= 8; column++) {
+            for (int column = 8; column >= 1; column--) {
                 //increase x
                 gridBagConstraints.gridx += 1;
 
