@@ -104,6 +104,10 @@ public class ViewController extends JFrame {
 
         //add game buttons to east(this may be changed just easy)
         this.add(gameButtons,BorderLayout.EAST);
+
+        //FOR TESTING create game automatically to save time while testing
+        //REMOVE LATER!!!
+        addGame("Test game");
     }
 
     /**
