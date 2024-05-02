@@ -3,7 +3,6 @@ import com.networkchess.GameLogic.pieces.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -358,24 +357,27 @@ public class Board {
         for (int x  = 0; x <=7; x++) {
             for (int y = 0; y <= 7; y++) {
                 if (gameBoard[x][y] != null) {
-                    if (attSquares.keySet().contains(gameBoard[x][y])) {
-                        if (gameBoard[x][y] instanceof Pawn) {
-                            attSquares.get(gameBoard[x][y]).addAll(((Pawn) gameBoard[x][y]).posAttackMoves());
+                    Piece piece = gameBoard[x][y];
+                    if (attSquares.keySet().contains(piece)) {
+                        if (piece instanceof Pawn) {
+                            attSquares.get(piece).clear();
+                            attSquares.get(piece).addAll(((Pawn) piece).posAttackMoves());
                         }
                         else
                         {
-                            attSquares.get(gameBoard[x][y]).addAll(gameBoard[x][y].possibleMoves());
+                            attSquares.get(piece).clear();
+                            attSquares.get(piece).addAll(piece.possibleMoves());
                         }
                     }
                     else
                     {
-                        attSquares.put(gameBoard[x][y], new LinkedList<>());
-                        if (gameBoard[x][y] instanceof Pawn) {
-                            attSquares.get(gameBoard[x][y]).addAll(((Pawn) gameBoard[x][y]).posAttackMoves());
+                        attSquares.put(piece, new LinkedList<>());
+                        if (piece instanceof Pawn) {
+                            attSquares.get(piece).addAll(((Pawn) piece).posAttackMoves());
                         }
                         else
                         {
-                            attSquares.get(gameBoard[x][y]).addAll(gameBoard[x][y].possibleMoves());
+                            attSquares.get(piece).addAll(piece.possibleMoves());
                         }
                     }
                 }
