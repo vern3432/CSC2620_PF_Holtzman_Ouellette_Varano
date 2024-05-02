@@ -64,8 +64,10 @@ public class Pawn extends Piece {
 
         if (getColor().equals("white")) {
             if (!movedYet) {
-                if ((y + 2) <= 8 && (b.getPosition(x, y + 2) == null && b.getPosition(x, y + 1) == null))
+                if ((y + 2) <= 8 && (b.getPosition(x, y + 2) == null && b.getPosition(x, y + 1) == null)) {
                     posMoves.add(x + ";" + (y + 2));
+                    moveMF2 = b.getMoveNum();
+                }
                 if (y + 1 <= 8 && b.getPosition(x, y + 1) == null)
                     posMoves.add(x + ";" + (y + 1));
             }
@@ -84,11 +86,11 @@ public class Pawn extends Piece {
                 }
                 Piece leftPice = b.getPosition(x-1, y);
                 Piece rightPice = b.getPosition(x+1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum() && isOp(leftPice)) {
-                    posMoves.add((x-1) + ";" + (y));
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x-1) + ";" + (y+1));
                 }
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum() && isOp(rightPice)) {
-                    posMoves.add((x+1) + ";" + (y));
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x+1) + ";" + (y+1));   
                 }
             }
             if (x == 1 && y != 8) {
@@ -96,8 +98,8 @@ public class Pawn extends Piece {
                     posMoves.add((x + 1) + ";" + (y + 1));
                 }
                 Piece rightPice = b.getPosition(x+1, y);
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum() && isOp(rightPice)) {
-                    posMoves.add((x+1) + ";" + (y));
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x+1) + ";" + (y+1));
                 }
             }
             if (x == 8 && y != 8) {
@@ -105,16 +107,18 @@ public class Pawn extends Piece {
                     posMoves.add((x - 1) + ";" + (y + 1));
                 }
                 Piece leftPice = b.getPosition(x-1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum() && isOp(leftPice)) {
-                    posMoves.add((x-1) + ";" + (y));
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x-1) + ";" + (y+1));
                 }
             }
         }
         else 
         {
             if (!movedYet) {
-                if (y + 1 <= 8 && (b.getPosition(x, y - 2) == null && b.getPosition(x, y - 1) == null))
+                if (y + 1 <= 8 && (b.getPosition(x, y - 2) == null && b.getPosition(x, y - 1) == null)) {
                     posMoves.add(x + ";" + (y - 2));
+                    moveMF2 = b.getMoveNum();
+                }
                 if (y + 1 <= 8 && b.getPosition(x, y - 1) == null)
                     posMoves.add(x + ";" + (y - 1));
             }
@@ -132,10 +136,10 @@ public class Pawn extends Piece {
                 }
                 Piece leftPice = b.getPosition(x-1, y);
                 Piece rightPice = b.getPosition(x+1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum() && isOp(leftPice)) {
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x-1) + ";" + (y));
                 }
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum() && isOp(rightPice)) {
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x+1) + ";" + (y));
                 }
             }
@@ -144,7 +148,7 @@ public class Pawn extends Piece {
                     posMoves.add((x + 1) + ";" + (y - 1));
                 }
                 Piece rightPice = b.getPosition(x+1, y);
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum() && isOp(rightPice)) {
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x+1) + ";" + (y));
                 }
             }
@@ -153,7 +157,7 @@ public class Pawn extends Piece {
                     posMoves.add((x - 1) + ";" + (y - 1));
                 }
                 Piece leftPice = b.getPosition(x-1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum() && isOp(leftPice)) {
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x-1) + ";" + (y));
                 }
             }
