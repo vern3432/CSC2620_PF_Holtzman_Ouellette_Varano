@@ -60,10 +60,11 @@ public class Model extends JPanel implements Runnable {
     private void updateGame() {
         //create new game Jpanel
         JPanel gameJpanel = new JPanel(new GridBagLayout());
+        gameJpanel.setBackground(new Color(209, 135, 61));
 
         //set grid bag constants to place buttons
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new Insets(35, 35, 35, 35);
 
         //create chessboard row by row
         for (int row = 8; row >= 1; row--) {
