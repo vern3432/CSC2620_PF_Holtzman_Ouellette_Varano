@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * ViewController is responsible for the view and Controlling the actions of our GUI
@@ -35,12 +37,40 @@ public class ViewController extends JFrame {
      * This may be useful in the future such as with "surrender" button
      */
     private Model currGame;
+    /**
+     * Each model runs on its own thread
+     * We may want to add a config for the number of threads we use
+     */
+    private int threads;
+    /**
+     * String of the IP address of the central server
+     * We may want to add a config for IP address of the central server
+     */
+    private String serverAddr;
+    /**
+     * int of the port the central server is listening on
+     * We may want to add a config for port of the central server
+     */
+    private int serverPort;
+    /**
+     * Thread pool we will use to execute tasks on, put threads into a pool and uses next available one
+     */
+    private ExecutorService pools;
+
 
     /**
      * Constructor creates ViewController as JFrame
      */
     public ViewController() {
         super("SAS Chess"); //Sean Aidan Seth
+
+        //we should move this to config file later
+        threads = 10;
+        serverAddr = "127.0.0.1";
+        serverPort = 5000;
+
+        //create Thread pool we will use
+        pools = Executors.newFixedThreadPool(threads);
 
         //use border layout
         this.setLayout(new BorderLayout());
@@ -116,7 +146,10 @@ public class ViewController extends JFrame {
      */
     private void addGame(String name) {
         //add game to list of games
-        games.put(name, new Model(name));
+        Model newGameModel = new Model(name, serverAddr, serverPort);
+        pools.execute(newGameModel);
+
+        games.put(name, newGameModel);
 
         //add game to game panel in center
         chessPanel.add(name, games.get(name));

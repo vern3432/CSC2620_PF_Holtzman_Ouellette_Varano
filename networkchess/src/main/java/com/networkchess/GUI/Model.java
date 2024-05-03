@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.Socket;
 
 /**
  * Model is our internal representation of the chess game which deals with updating the board and communicating with the server
@@ -20,19 +25,28 @@ public class Model extends JPanel implements Runnable {
     /**
      * Board label us text of board for testing
      */
-    JTextArea boardLabel = new JTextArea();
-
+    private JTextArea boardLabel = new JTextArea();
     /**
      * String of name of current game
      */
     private String name;
+    /**
+     * String of the IP address to the central server we communicate with
+     */
+    private String serverAddr;
+    /**
+     * int of the port the central server is listening on
+     */
+    private int serverPort;
 
     /**
      * Creates model for internal representation of chess game
      * @param _name - name given to game
      */
-    public Model(String _name) {
+    public Model(String _name, String _serverAddr, int _serverPort) {
         name = _name;
+        serverAddr = _serverAddr;
+        serverPort = _serverPort;
 
         //adds board object toString as a placeholder
         this.setLayout(new BorderLayout());
@@ -50,8 +64,23 @@ public class Model extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        //TO:DO implement run method and threads
-        //handle server code and possibly timer
+        try {
+
+            //connect to server
+            Socket sock = new Socket(serverAddr, serverPort);
+            DataInputStream recv = new DataInputStream(sock.getInputStream());
+            DataOutputStream send = new DataOutputStream(sock.getOutputStream());
+            while (true) {
+                //TO:DO add code to communicate with server
+            }
+        } catch (ConnectException e) {
+            System.err.println("Server cannot be reached on: " + serverAddr + ":" + serverPort);
+            System.err.println("Please make sure server is running");
+            System.err.println(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
