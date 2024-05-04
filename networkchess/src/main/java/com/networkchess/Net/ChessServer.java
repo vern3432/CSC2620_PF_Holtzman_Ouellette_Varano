@@ -192,7 +192,7 @@ public class ChessServer {
                      whiteSend.println(blackRecvMessage.serialize());
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 //we encountered an error so end game
                 Message gameError = new Message.Builder("GAME").setGame(false,"The Server has " +
                         "encountered an error, please try again later").build();

@@ -191,6 +191,11 @@ public class Model extends JPanel implements Runnable {
                                 return;
                             }
 
+                            if (!currPiece.getColor().equals(color)) {
+                                JOptionPane.showMessageDialog(null,"Cannot move the opponents pieces" +
+                                        "you are the " + color + " player");
+                                return;
+                            }
                             //get user input
                             String input = JOptionPane.showInputDialog("Please enter position to move piece, current pos is: " + currPiece.getCurrPosition()
                             + "\n Can move: " + currPiece.possibleMoves()
@@ -201,11 +206,13 @@ public class Model extends JPanel implements Runnable {
                                 return;
                             }
 
+                            if (!currPiece.possibleMoves().contains(input)) {
+                                JOptionPane.showMessageDialog(null, "Move " + input + " is not " +
+                                        "possible");
+                                return;
+                            }
                             //move piece
                             board.updateBoard(currPiece,input);
-
-                            //update board
-                            updateGame();
 
                             //send move to server
                             Message move = new Message.Builder("MOVE").setMove(input,pieceX,pieceY).build();
@@ -213,6 +220,9 @@ public class Model extends JPanel implements Runnable {
 
                             //update turn
                             isTurn = false;
+
+                            //update board
+                            updateGame();
                         }
                     });
                 }
@@ -255,7 +265,7 @@ public class Model extends JPanel implements Runnable {
         this.removeAll();
 
         //update top bar
-        this.add(new JLabel("Game: " + name + " isTurn: " + isTurn + "Color: " +color + " Move number: " +
+        this.add(new JLabel("Game: " + name + " isTurn: " + isTurn + " Color: " +color + " Move number: " +
                 board.getMoveNum()), BorderLayout.NORTH);
         //update chess game
         this.add(new JScrollPane(gameJpanel), BorderLayout.CENTER);
