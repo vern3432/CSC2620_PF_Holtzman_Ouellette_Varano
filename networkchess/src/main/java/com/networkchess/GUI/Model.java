@@ -203,6 +203,17 @@ public class Model extends JPanel implements Runnable {
         JPanel gameJpanel = new JPanel(new GridBagLayout());
         gameJpanel.setBackground(new Color(209, 135, 61));
 
+        // Turn indicator
+        JLabel turnIndicator = new JLabel();
+        turnIndicator.setOpaque(true);
+        turnIndicator.setPreferredSize(new Dimension(10, 10));
+        if (isTurn) {
+            turnIndicator.setBackground(Color.GREEN);
+        } else {
+            turnIndicator.setBackground(Color.RED);
+        }
+        gameJpanel.add(turnIndicator, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
+
         //set grid bag constants to place buttons
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.insets = new Insets(35, 35, 35, 35);

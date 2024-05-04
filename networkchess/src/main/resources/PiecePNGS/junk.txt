@@ -1,0 +1,7 @@
+okay, please, I want you to completely change how the gui works in terms of movinng pices.As you can see rn, it asks for a popup with the new corindate input of x;y.  Instead of putting in a text input when you press on a piece, i want you to press the piece, then all possible moves for that piece are calculated, then those avalible spaces are found, those spots buttons are hiihglihted yellow, and thier function is changed so that when you press on it, and the user is aksked via a popup menu, Are you sure you want to move to :cordinate x, cordinate y? Allowing them to confirm, then  moving the piece and sending off the move as it currently does. Remember that each peiece has a     public abstract LinkedList<String> possibleMoves();
+
+
+
+Please make this fully fnuctioanl and spare no expense , 
+
+
