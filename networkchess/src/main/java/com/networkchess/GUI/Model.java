@@ -69,6 +69,7 @@ public class Model extends JPanel implements Runnable {
      */
     private HashMap<String, ImageIcon> pieceIcons = new HashMap<>();
     JPanel gameJpanel = new JPanel(new GridBagLayout());
+    private HashMap<String, JButton> buttonMap = new HashMap<>();
 
     /**
      * Creates model for internal representation of chess game
@@ -232,8 +233,12 @@ public class Model extends JPanel implements Runnable {
                 //increase x
                 gridBagConstraints.gridx += 1;
 
+                // Declare pieceX and pieceY here
+                int pieceX = column;
+                int pieceY = row;
+
                 //get piece at current position
-                Piece currPiece = board.getPosition(column,row);
+                Piece currPiece = board.getPosition(column, row);
                 JButton pieceButton;
 
                 //if piece is not null add a button to represent it
@@ -241,9 +246,6 @@ public class Model extends JPanel implements Runnable {
                     String pieceKey = currPiece.getColor() + "_" + currPiece.getClass().getSimpleName().toLowerCase();
                     ImageIcon icon = pieceIcons.get(pieceKey);
                     pieceButton = new JButton(icon);
-                    //column and row of current piece to send to server
-                    int pieceX = column;
-                    int pieceY = row;
                     pieceButton.setActionCommand(column + ";" + row); // Set the position as action command
                     pieceButton.addActionListener(new ActionListener() {
                         @Override
@@ -279,6 +281,10 @@ public class Model extends JPanel implements Runnable {
 
                 //add piece button in position
                 gameJpanel.add(pieceButton,gridBagConstraints);
+                pieceButton.setActionCommand(column + ";" + row); // Set the position as action command
+                gameJpanel.add(pieceButton, gridBagConstraints);
+                // Save the button with its grid position in the map
+                buttonMap.put(pieceX + ";" + pieceY, pieceButton);
 
             }
             //reset row back to 0
@@ -340,6 +346,10 @@ public class Model extends JPanel implements Runnable {
                 //increase x
                 gridBagConstraints.gridx += 1;
 
+                // Declare pieceX and pieceY here
+                int pieceX = column;
+                int pieceY = row;
+
                 //get piece at current position
                 Piece currPiece = board.getPosition(column,row);
                 JButton pieceButton;
@@ -350,8 +360,6 @@ public class Model extends JPanel implements Runnable {
                     ImageIcon icon = pieceIcons.get(pieceKey);
                     pieceButton = new JButton(icon);
                     //column and row of current piece to send to server
-                    int pieceX = column;
-                    int pieceY = row;
                     pieceButton.setActionCommand(column + ";" + row); // Set the position as action command
                     pieceButton.addActionListener(new ActionListener() {
                         @Override
@@ -387,6 +395,10 @@ public class Model extends JPanel implements Runnable {
 
                 //add piece button in position
                 gameJpanel.add(pieceButton,gridBagConstraints);
+                pieceButton.setActionCommand(column + ";" + row); // Set the position as action command
+                gameJpanel.add(pieceButton, gridBagConstraints);
+                // Save the button with its grid position in the map
+                buttonMap.put(pieceX + ";" + pieceY, pieceButton);
 
             }
             //reset row back to 0
@@ -443,7 +455,7 @@ public class Model extends JPanel implements Runnable {
         for (String move : moves) {
             int x = Integer.parseInt(move.split(";")[0]);
             int y = Integer.parseInt(move.split(";")[1]);
-            JButton moveButton = (JButton) gameJpanel.getComponent((8-y)*8 + (x-1));
+            JButton moveButton = (JButton) buttonMap.get(move);
             moveButton.setBackground(Color.YELLOW);
             
             moveButton.addActionListener(new ActionListener() {
