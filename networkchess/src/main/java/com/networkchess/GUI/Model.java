@@ -315,13 +315,137 @@ public class Model extends JPanel implements Runnable {
         //revalidate gui
         revalidate();
     }
+
+
+    private void updateGame2() {
+        //create new game JPanel
+        this.gameJpanel = new JPanel(new GridBagLayout());
+        gameJpanel.setBackground(new Color(209, 135, 61));
+
+
+        //set grid bag constants to place buttons
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.insets = new Insets(35, 35, 35, 35);
+
+        //create chessboard row by row
+        for (int row = 8; row >= 1; row--) {
+            //increase the row and columns when placing items
+            gridBagConstraints.gridy += 1;
+            gridBagConstraints.gridx += 1;
+
+            //add row label math magic used to get rows in "reverse order"
+            JLabel rowButton = new JLabel(String.valueOf((row-9) * -1));
+            gameJpanel.add(rowButton,gridBagConstraints);
+            for (int column = 1; column <= 8; column++) {
+                //increase x
+                gridBagConstraints.gridx += 1;
+
+                //get piece at current position
+                Piece currPiece = board.getPosition(column,row);
+                JButton pieceButton;
+
+                //if piece is not null add a button to represent it
+                if (currPiece != null) {
+                    String pieceKey = currPiece.getColor() + "_" + currPiece.getClass().getSimpleName().toLowerCase();
+                    ImageIcon icon = pieceIcons.get(pieceKey);
+                    pieceButton = new JButton(icon);
+                    //column and row of current piece to send to server
+                    int pieceX = column;
+                    int pieceY = row;
+                    pieceButton.setActionCommand(column + ";" + row); // Set the position as action command
+                    pieceButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            //check if it is our turn
+                            if (!isTurn) {
+                                JOptionPane.showMessageDialog(null, "Cannot move it is not our turn");
+                                return;
+                            }
+
+                            //check if it is our piece
+                            if (!currPiece.getColor().equals(color)) {
+                                JOptionPane.showMessageDialog(null,"Cannot move the opponents pieces" +
+                                        "you are the " + color + " player");
+                                return;
+                            }
+                            //get user input
+                            LinkedList<String> moves = currPiece.possibleMoves();
+                            highlightMoves(moves, currPiece, pieceX, pieceY);
+                        }
+                    });
+                }
+                //if null add placeholder button
+                else {
+                    pieceButton = new JButton("             ");
+                    pieceButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JOptionPane.showMessageDialog(null,"Feature not added cant move nothing");
+                        }
+                    });
+                }
+
+                //add piece button in position
+                gameJpanel.add(pieceButton,gridBagConstraints);
+
+            }
+            //reset row back to 0
+            gridBagConstraints.gridx -= 9;
+        }
+
+        //increase x and y for bottom column labels
+        gridBagConstraints.gridy += 1;
+        gridBagConstraints.gridx += 2;
+
+        //add letter label for each column
+        for (int i = 0; i < 8; i++) {
+            //get letter from number
+            char column = (char) (i + 'A');
+            //create JLabel with letter
+            JLabel columnLabel = new JLabel(String.valueOf(column));
+            //add JLabel
+            gameJpanel.add(columnLabel, gridBagConstraints);
+            //increase x
+            gridBagConstraints.gridx += 1;
+        }
+
+        //remove everything in gui
+        this.removeAll();
+
+        //update top bar
+        this.add(new JLabel("Game: " + name + " isTurn: " + isTurn + " Color: " +color + " Move number: " +
+                board.getMoveNum()), BorderLayout.NORTH);
+        //update chess game
+        this.add(new JScrollPane(gameJpanel), BorderLayout.CENTER);
+
+        System.out.println("current board:");
+        System.out.println(board);
+        //revalidate gui
+        revalidate();
+    }
     
+    
+    private void resetHighlights() {
+        for (Component comp : gameJpanel.getComponents()) {
+            if (comp instanceof JButton) {
+                JButton button = (JButton) comp;
+                button.setBackground(new JButton().getBackground()); // Reset to default color
+                // for (ActionListener al : button.getActionListeners()) {
+                //     // button.removeActionListener(al); // Remove all action listeners
+                // }
+            }
+        }
+    }
+
     private void highlightMoves(LinkedList<String> moves, Piece selectedPiece, int pieceX, int pieceY) {
+        resetHighlights(); // Reset all highlights before setting new ones
+        updateGame2();
         for (String move : moves) {
             int x = Integer.parseInt(move.split(";")[0]);
             int y = Integer.parseInt(move.split(";")[1]);
             JButton moveButton = (JButton) gameJpanel.getComponent((8-y)*8 + (x-1));
             moveButton.setBackground(Color.YELLOW);
+            
             moveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
