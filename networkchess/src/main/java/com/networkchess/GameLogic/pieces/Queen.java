@@ -48,153 +48,59 @@ public class Queen extends Piece{
 
 
         LinkedList<String> posMoves = new LinkedList<>();
-        Board board = getCurrBoard();
-
-        Boolean flagU = true;
-        Boolean flagD = true;
-        Boolean flagR = true;
-        Boolean flagL = true;
-        Boolean flagUR = true;
-        Boolean flagUL = true;
-        Boolean flagDR = true;
-        Boolean flagDL = true;
-        for (int i = 1; i <= 7; i++) {
-            if (flagU && y+i <= 8) {
-                if ((board.getPosition(x, y+i) != null)) {
-                    if (isOp(board.getPosition(x, y+i))) {
-                        posMoves.add((x) + ";" + (y+i));
-                        flagU = false;
-                    }
-                    else
-                    {
-                        flagU = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x) + ";" + (y+i));
-                }
-            }
-            if (flagR && x+i <= 8) {
-                if ((board.getPosition(x+i, y) != null)) {
-                    if (isOp(board.getPosition(x+i, y))) {
-                        posMoves.add((x+i) + ";" + (y));
-                        flagR = false;
-                    }
-                    else
-                    {
-                        flagR = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x+i) + ";" + (y));
-                }
-            }
-            if (flagD && y-i >= 1) {
-                if ((board.getPosition(x, y-i) != null)) {
-                    if (isOp(board.getPosition(x, y-i))) {
-                        posMoves.add((x) + ";" + (y-i));
-                        flagD = false;
-                    }
-                    else
-                    {
-                        flagD = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x) + ";" + (y-i));
-                }
-            }
-            if (flagL && x-i >= 1 ) {
-                if ((board.getPosition(x-i, y) != null)) {
-                    if (isOp(board.getPosition(x-i, y))) {
-                        posMoves.add((x-i) + ";" + (y));
-                        flagL = false;
-                    }
-                    else
-                    {
-                        flagL = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x-i) + ";" + (y));
-                }
-            }
-            if (flagUL && x-i >= 1 && y+i <= 8) {
-                if ((board.getPosition(x-i, y+i) != null)) {
-                    if (isOp(board.getPosition(x-i, y+i))) {
-                        posMoves.add((x-i) + ";" + (y+i));
-                        flagUL = false;
-                    }
-                    else
-                    {
-                        flagUL = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x-i) + ";" + (y+i));
-                }
-            }
-            if (flagUR && x+i <= 8 && y+i <= 8) {
-                if ((board.getPosition(x+i, y+i) != null)) {
-                    if (isOp(board.getPosition(x+i, y+i))) {
-                        posMoves.add((x+i) + ";" + (y+i));
-                        flagUR = false;
-                    }
-                    else
-                    {
-                        flagUR = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x+i) + ";" + (y+i));
-                }
-            }
-            if (flagDR && x+i <= 8 && y-i >= 1) {
-                if ((board.getPosition(x+i, y-i) != null)) {
-                    if (isOp(board.getPosition(x+i, y-i))) {
-                        posMoves.add((x+i) + ";" + (y-i));
-                        flagDR = false;
-                    }
-                    else
-                    {
-                        flagDR = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x+i) + ";" + (y-i));
-                }
-            }
-            if (flagDL && x-i >= 1 && y-i >= 1) {
-                if ((board.getPosition(x-i, y-i) != null)) {
-                    if (isOp(board.getPosition(x-i, y-i))) {
-                        posMoves.add((x-i) + ";" + (y-i));
-                        flagDL = false;
-                    }
-                    else
-                    {
-                        flagDL = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x-i) + ";" + (y-i));
-                }
-            }
-        }
+        
+        checkDirection(0, 1, posMoves);
+        checkDirection(1, 1, posMoves);
+        checkDirection(1, 0, posMoves);
+        checkDirection(1, -1, posMoves);
+        checkDirection(0, -1, posMoves);
+        checkDirection(-1, -1, posMoves);
+        checkDirection(-1, 0, posMoves);
+        checkDirection(-1, 1, posMoves);
 
         return posMoves;
     }
 
     @Override
     public String toString() {
-        return "Queen: " + getColor();
+        if (getColor().equals("white")) {
+            return "Q";
+        }
+        else
+        {
+            return "q";
+        }
+    }
+
+    private void checkDirection(int xc, int yc, LinkedList<String> posMovesList) {
+        String[] xy = this.getCurrPosition().split(";");
+        Integer xp = Integer.valueOf(xy[0]);
+        Integer yp = Integer.valueOf(xy[1]);
+        
+        Boolean flagDirction = true;
+        Board board = getCurrBoard();
+
+        for (int i = 1; i <= 7; i++) {
+            int x = xp + (i * xc);
+            int y = yp + (i * yc);
+            if (flagDirction && x <=8 && x >=1 && y >= 1 && y <= 8) {
+                if ((board.getPosition(x, y) != null)) {
+                    if (isOp(board.getPosition(x, y))) {
+                        posMovesList.add((x) + ";" + (y));
+                        return;
+                    }
+                    else 
+                    {
+                        return;
+                    }
+                }
+                else 
+                {
+                    posMovesList.add((x) + ";" + (y));
+                }   
+            }
+        }
+        
     }
     
 }

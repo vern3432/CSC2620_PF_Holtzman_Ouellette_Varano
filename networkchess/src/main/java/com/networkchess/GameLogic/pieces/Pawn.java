@@ -58,102 +58,106 @@ public class Pawn extends Piece {
         String[] xy = getCurrPosition().split(";");
         Integer x = Integer.valueOf(xy[0]);
         Integer y = Integer.valueOf(xy[1]);
-        Board currBoard = getCurrBoard();
+        Board b = getCurrBoard();
 
         LinkedList<String> posMoves = new LinkedList<>();
 
         if (getColor().equals("white")) {
             if (!movedYet) {
-                if ((y + 2) <= 8 && (getCurrBoard().getPosition(x, y + 2) == null && getCurrBoard().getPosition(x, y + 1) == null))
+                if ((y + 2) <= 8 && (b.getPosition(x, y + 2) == null && b.getPosition(x, y + 1) == null)) {
                     posMoves.add(x + ";" + (y + 2));
-                if (y + 1 <= 8 && getCurrBoard().getPosition(x, y + 1) == null)
+                    moveMF2 = b.getMoveNum();
+                }
+                if (y + 1 <= 8 && b.getPosition(x, y + 1) == null)
                     posMoves.add(x + ";" + (y + 1));
             }
             else
             {
-                if (y + 1 <= 8 && getCurrBoard().getPosition(x, y + 1) == null)
+                if (y + 1 <= 8 && b.getPosition(x, y + 1) == null)
                     posMoves.add(x + ";" + (y + 1));
             }
 
             if (x > 1 && x < 8 && y != 8) {
-                if (currBoard.getPosition(x-1, y+1) != null && isOp(currBoard.getPosition(x-1, y+1))) {
+                if (b.getPosition(x-1, y+1) != null && isOp(b.getPosition(x-1, y+1))) {
                     posMoves.add((x - 1) + ";" + (y + 1));
                 }
-                if (currBoard.getPosition(x+1, y+1) != null && isOp(currBoard.getPosition(x-1, y+1))) {
+                if (b.getPosition(x+1, y+1) != null && isOp(b.getPosition(x-1, y+1))) {
                     posMoves.add((x + 1) + ";" + (y + 1));
                 }
-                Piece leftPice = currBoard.getPosition(x-1, y);
-                Piece rightPice = currBoard.getPosition(x+1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == currBoard.getMoveNum() && isOp(leftPice)) {
-                    posMoves.add((x-1) + ";" + (y));
+                Piece leftPice = b.getPosition(x-1, y);
+                Piece rightPice = b.getPosition(x+1, y);
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x-1) + ";" + (y+1));
                 }
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == currBoard.getMoveNum() && isOp(rightPice)) {
-                    posMoves.add((x+1) + ";" + (y));
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x+1) + ";" + (y+1));   
                 }
             }
             if (x == 1 && y != 8) {
-                if (currBoard.getPosition(x+1, y+1) != null && isOp(currBoard.getPosition(x+1, y+1))) {
+                if (b.getPosition(x+1, y+1) != null && isOp(b.getPosition(x+1, y+1))) {
                     posMoves.add((x + 1) + ";" + (y + 1));
                 }
-                Piece rightPice = currBoard.getPosition(x+1, y);
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == currBoard.getMoveNum() && isOp(rightPice)) {
-                    posMoves.add((x+1) + ";" + (y));
+                Piece rightPice = b.getPosition(x+1, y);
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x+1) + ";" + (y+1));
                 }
             }
             if (x == 8 && y != 8) {
-                if (currBoard.getPosition(x-1, y+1) != null && isOp(currBoard.getPosition(x-1, y+1))) {
+                if (b.getPosition(x-1, y+1) != null && isOp(b.getPosition(x-1, y+1))) {
                     posMoves.add((x - 1) + ";" + (y + 1));
                 }
-                Piece leftPice = currBoard.getPosition(x-1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == currBoard.getMoveNum() && isOp(leftPice)) {
-                    posMoves.add((x-1) + ";" + (y));
+                Piece leftPice = b.getPosition(x-1, y);
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
+                    posMoves.add((x-1) + ";" + (y+1));
                 }
             }
         }
         else 
         {
             if (!movedYet) {
-                if (y + 1 <= 8 && (getCurrBoard().getPosition(x, y - 2) == null && getCurrBoard().getPosition(x, y - 1) == null))
+                if (y + 1 <= 8 && (b.getPosition(x, y - 2) == null && b.getPosition(x, y - 1) == null)) {
                     posMoves.add(x + ";" + (y - 2));
-                if (y + 1 <= 8 && getCurrBoard().getPosition(x, y - 1) == null)
+                    moveMF2 = b.getMoveNum();
+                }
+                if (y + 1 <= 8 && b.getPosition(x, y - 1) == null)
                     posMoves.add(x + ";" + (y - 1));
             }
             else 
             {
-                if (y + 1 <= 8 && getCurrBoard().getPosition(x, y - 1) == null)
+                if (y + 1 <= 8 && b.getPosition(x, y - 1) == null)
                     posMoves.add(x + ";" + (y - 1));
             }
             if (x > 1 && x < 8 && y != 8) {
-                if (currBoard.getPosition(x-1, y-1) != null && isOp(currBoard.getPosition(x-1, y+1))) {
+                if (b.getPosition(x-1, y-1) != null && isOp(b.getPosition(x-1, y+1))) {
                     posMoves.add((x - 1) + ";" + (y - 1));
                 }
-                if (currBoard.getPosition(x+1, y-1) != null && isOp(currBoard.getPosition(x+1, y+1))) {
+                if (b.getPosition(x+1, y-1) != null && isOp(b.getPosition(x+1, y+1))) {
                     posMoves.add((x + 1) + ";" + (y - 1));
                 }
-                Piece leftPice = currBoard.getPosition(x-1, y);
-                Piece rightPice = currBoard.getPosition(x+1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == currBoard.getMoveNum() && isOp(leftPice)) {
+                Piece leftPice = b.getPosition(x-1, y);
+                Piece rightPice = b.getPosition(x+1, y);
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x-1) + ";" + (y));
                 }
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == currBoard.getMoveNum() && isOp(rightPice)) {
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x+1) + ";" + (y));
                 }
             }
             if (x == 1 && y != 0) {
-                if (currBoard.getPosition(x+1, y-1) != null && isOp(currBoard.getPosition(x+1, y-1))) {
+                if (b.getPosition(x+1, y-1) != null && isOp(b.getPosition(x+1, y-1))) {
                     posMoves.add((x + 1) + ";" + (y - 1));
                 }
-                Piece rightPice = currBoard.getPosition(x+1, y);
-                if (rightPice != null && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() == currBoard.getMoveNum() && isOp(rightPice)) {
+                Piece rightPice = b.getPosition(x+1, y);
+                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x+1) + ";" + (y));
                 }
             }
             if (x == 8 && y != 0) {
-                if (currBoard.getPosition(x-1, y-1) != null && isOp(currBoard.getPosition(x-1, y-1))) {
+                if (b.getPosition(x-1, y-1) != null && isOp(b.getPosition(x-1, y-1))) {
                     posMoves.add((x - 1) + ";" + (y - 1));
                 }
-                Piece leftPice = currBoard.getPosition(x-1, y);
-                if (leftPice != null && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() == currBoard.getMoveNum() && isOp(leftPice)) {
+                Piece leftPice = b.getPosition(x-1, y);
+                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
                     posMoves.add((x-1) + ";" + (y));
                 }
             }
@@ -162,9 +166,46 @@ public class Pawn extends Piece {
         return posMoves;
     }
 
+    public LinkedList<String> posAttackMoves() {
+        LinkedList<String> posAttMoves = new LinkedList<>();
+        String[] xy = getCurrPosition().split(";");
+        Integer x = Integer.valueOf(xy[0]);
+        Integer y = Integer.valueOf(xy[1]);
+
+        if (getColor().equals("white")) {
+            if (x+1 <= 8) {
+                posAttMoves.add((x+1)+";"+(y+1));
+            }
+            if (x-1 >= 1) {
+                posAttMoves.add((x-1)+";"+(y+1));
+            }
+        }
+        else
+        {
+            if (x+1 <= 8) {
+                posAttMoves.add((x+1)+";"+(y-1));
+            }
+            if (x-1 >= 1) {
+                posAttMoves.add((x-1)+";"+(y-1));
+            }
+        }
+
+        return posAttMoves;
+    }
+
+    public void moved() {
+        this.movedYet = true;
+    }
+
     @Override
     public String toString() {
-        return "Pawn: " + getColor();
+        if (getColor().equals("white")) {
+            return "P";
+        }
+        else
+        {
+            return "p";
+        }
     }
 
 }

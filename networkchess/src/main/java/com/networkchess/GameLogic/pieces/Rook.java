@@ -51,85 +51,67 @@ public class Rook extends Piece {
 
 
         LinkedList<String> posMoves = new LinkedList<>();
-        Board board = getCurrBoard();
 
-        Boolean flagU = true;
-        Boolean flagD = true;
-        Boolean flagR = true;
-        Boolean flagL = true;
-        for (int i = 1; i <= 7; i++) {
-            if (flagU && y+i <= 8) {
-                if ((board.getPosition(x, y+i) != null)) {
-                    if (isOp(board.getPosition(x, y+i))) {
-                        posMoves.add((x) + ";" + (y+i));
-                        flagU = false;
-                    }
-                    else
-                    {
-                        flagU = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x) + ";" + (y+i));
-                }
-            }
-            if (flagR && x+i <= 8) {
-                if ((board.getPosition(x+i, y) != null)) {
-                    if (isOp(board.getPosition(x+i, y))) {
-                        posMoves.add((x+i) + ";" + (y));
-                        flagR = false;
-                    }
-                    else
-                    {
-                        flagR = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x+i) + ";" + (y));
-                }
-            }
-            if (flagD && y-i >= 1) {
-                if ((board.getPosition(x, y-i) != null)) {
-                    if (isOp(board.getPosition(x, y-i))) {
-                        posMoves.add((x) + ";" + (y-i));
-                        flagD = false;
-                    }
-                    else
-                    {
-                        flagD = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x) + ";" + (y-i));
-                }
-            }
-            if (flagL && x-i >= 1 ) {
-                if ((board.getPosition(x-i, y) != null)) {
-                    if (isOp(board.getPosition(x-i, y))) {
-                        posMoves.add((x-i) + ";" + (y));
-                        flagL = false;
-                    }
-                    else
-                    {
-                        flagL = false;
-                    }
-                }
-                else 
-                {
-                    posMoves.add((x-i) + ";" + (y));
-                }
-            }
-        }
+        checkDirection(1, 0, posMoves);
+        checkDirection(-1, 0, posMoves);
+        checkDirection(0, 1, posMoves);
+        checkDirection(0, -1, posMoves);
 
         return posMoves;
     }
 
     @Override
     public String toString() {
-        return "Rook: " + getColor();
+        if (getColor().equals("white")) {
+            return "R";
+        }
+        else
+        {
+            return "r";
+        }
+    }
+
+    public void moved() {
+        this.movedYet = true;
+    }
+
+    public Boolean getMovedYet() {
+        return movedYet;
+    }
+
+    private void checkDirection(int xc, int yc, LinkedList<String> posMovesList) {
+        String[] xy = this.getCurrPosition().split(";");
+        Integer xp = Integer.valueOf(xy[0]);
+        Integer yp = Integer.valueOf(xy[1]);
+        
+        Boolean flagDirction = true;
+        Board board = getCurrBoard();
+
+        for (int i = 1; i <= 7; i++) {
+            int x = xp + (i * xc);
+            int y = yp + (i * yc);
+            if (flagDirction && x <=8 && x >=1 && y >= 1 && y <= 8) {
+                if ((board.getPosition(x, y) != null)) {
+                    if (isOp(board.getPosition(x, y))) {
+                        posMovesList.add((x) + ";" + (y));
+                        flagDirction = false;
+                    }
+                    else 
+                    {
+                        flagDirction = false;
+                    }
+                }
+                else 
+                {
+                    posMovesList.add((x) + ";" + (y));
+                }   
+            }
+            else
+            {
+                return;
+            }
+        }
+        
     }
     
 }
