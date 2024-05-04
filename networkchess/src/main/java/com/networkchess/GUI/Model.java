@@ -2,16 +2,20 @@ package com.networkchess.GUI;
 
 import com.networkchess.GameLogic.Board;
 import com.networkchess.GameLogic.pieces.Piece;
+import com.networkchess.Net.Message;
+import merrimackutil.json.types.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.Scanner;
+
+import static merrimackutil.json.JsonIO.readObject;
 
 /**
  * Model is our internal representation of the chess game which deals with updating the board and communicating with the server
@@ -38,6 +42,13 @@ public class Model extends JPanel implements Runnable {
      * int of the port the central server is listening on
      */
     private int serverPort;
+
+    private String color = "";
+    private boolean isTurn = false;
+
+    private PrintWriter send;
+    private boolean endGame = false;
+
 
     /**
      * Creates model for internal representation of chess game
@@ -66,13 +77,68 @@ public class Model extends JPanel implements Runnable {
     public void run() {
         try {
 
-            //connect to server
+            //connect to server and get IO streams
             Socket sock = new Socket(serverAddr, serverPort);
-            DataInputStream recv = new DataInputStream(sock.getInputStream());
-            DataOutputStream send = new DataOutputStream(sock.getOutputStream());
-            while (true) {
-                //TO:DO add code to communicate with server
+            Scanner recv = new Scanner(sock.getInputStream());
+            send = new PrintWriter(sock.getOutputStream(),true);
+
+            //get server Welcome message
+            JSONObject messageJSON = readObject(recv.nextLine());
+            Message serverWelcome = new Message(messageJSON);
+
+            //make sure we get expected message if not show an error
+            if (!serverWelcome.getType().equals("WELCOME")) {
+                System.err.println("Server should have sent welcome message exciting");
+                System.err.println(serverWelcome);
+                JOptionPane.showMessageDialog(null,"An error has occured game ended please try" +
+                        "again later");
+                return;
             }
+
+            color = serverWelcome.getColor();
+
+            //set turn based on server color
+            if (color.equals("white")) {
+                isTurn = true;
+                JOptionPane.showMessageDialog(null,"You are the white player waiting for other player to join");
+            }
+            else {
+                isTurn = false;
+                JOptionPane.showMessageDialog(null,"You are the black player!");
+            }
+
+            System.out.println("Starting game as " + color + " player");
+
+            while (true) {
+                JSONObject recvJSON = readObject(recv.nextLine());
+                Message recvMessage = new Message(recvJSON);
+
+                switch (recvMessage.getType()) {
+                    case "MOVE":
+                        //update board with the new move
+                        Piece pieceToMove = board.getPosition(recvMessage.getPieceX(),recvMessage.getPieceY());
+                        board.updateBoard(pieceToMove, recvMessage.getMove());
+
+                        isTurn = true;
+                        updateGame();
+                        break;
+
+                    case "GAME":
+                        //if the game is not running we will end it
+                        endGame = !recvMessage.isRunning();
+
+                        if (endGame) {
+                            JOptionPane.showMessageDialog(null, "Game has ended \n"
+                                    + recvMessage.getReason());
+                            return;
+                        }
+
+                        JOptionPane.showMessageDialog(null,recvMessage.getReason());
+                        updateGame();
+                        break;
+                }
+            }
+
         } catch (ConnectException e) {
             System.err.println("Server cannot be reached on: " + serverAddr + ":" + serverPort);
             System.err.println("Please make sure server is running");
@@ -115,9 +181,16 @@ public class Model extends JPanel implements Runnable {
                 //if piece is not null add a button to represent it
                 if (currPiece != null) {
                     pieceButton = new JButton(currPiece.getColor() + " " + currPiece.toString());
+                    int pieceX = column;
+                    int pieceY = row;
                     pieceButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            if (!isTurn) {
+                                JOptionPane.showMessageDialog(null, "Cannot move it is not our turn");
+                                return;
+                            }
+
                             //get user input
                             String input = JOptionPane.showInputDialog("Please enter position to move piece, current pos is: " + currPiece.getCurrPosition()
                             + "\n Can move: " + currPiece.possibleMoves()
@@ -133,6 +206,13 @@ public class Model extends JPanel implements Runnable {
 
                             //update board
                             updateGame();
+
+                            //send move to server
+                            Message move = new Message.Builder("MOVE").setMove(input,pieceX,pieceY).build();
+                            send.println(move.serialize());
+
+                            //update turn
+                            isTurn = false;
                         }
                     });
                 }
@@ -175,7 +255,8 @@ public class Model extends JPanel implements Runnable {
         this.removeAll();
 
         //update top bar
-        this.add(new JLabel("Game: " + name +  "Move number " + board.getMoveNum()), BorderLayout.NORTH);
+        this.add(new JLabel("Game: " + name + " isTurn: " + isTurn + "Color: " +color + " Move number: " +
+                board.getMoveNum()), BorderLayout.NORTH);
         //update chess game
         this.add(new JScrollPane(gameJpanel), BorderLayout.CENTER);
 

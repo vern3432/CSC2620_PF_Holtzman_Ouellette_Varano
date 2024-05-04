@@ -32,6 +32,9 @@ public class Message implements JSONSerializable {
      */
     private String reason;
 
+    private int pieceX;
+    private int pieceY;
+
     /**
      * Creates Message object from builder
      * @param builder Builder that creates message object
@@ -40,8 +43,14 @@ public class Message implements JSONSerializable {
         type = builder.type;
         color = builder.color;
         move = builder.move;
+        pieceX = builder.pieceX;
+        pieceY = builder.pieceY;
         isRunning = builder.isRunning;
         reason = builder.reason;
+    }
+
+    public Message(JSONObject messageJSON) throws InvalidObjectException {
+        deserialize(messageJSON);
     }
 
     /**
@@ -89,7 +98,9 @@ public class Message implements JSONSerializable {
 
                 break;
             case "MOVE":
-                move = messageJSON.getString(move);
+                move = messageJSON.getString("move");
+                pieceX = messageJSON.getInt("pieceX");
+                pieceY = messageJSON.getInt("pieceY");
 
                 break;
             default:
@@ -126,11 +137,50 @@ public class Message implements JSONSerializable {
             case "MOVE":
                 messageJSON.put("type",type);
                 messageJSON.put("move",move);
+                messageJSON.put("pieceX",pieceX);
+                messageJSON.put("pieceY",pieceY);
 
                 return messageJSON;
             default:
                 throw new IllegalArgumentException("Bad type - Must be HELLO, WELCOME, GAME, MOVE");
         }
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getMove() {
+        return move;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getPieceX() {
+        return pieceX;
+    }
+
+    public int getPieceY() {
+        return pieceY;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    /**
+     * Gets formatted JSON
+     * @return String of Formatted JSON
+     */
+    @Override
+    public String toString() {
+       return toJSONType().getFormattedJSON();
     }
 
     /**
@@ -140,8 +190,10 @@ public class Message implements JSONSerializable {
         private String type;
         private String color;
         private String move;
-        private Boolean isRunning;
+        private boolean isRunning;
         private String reason;
+        private int pieceX;
+        private int pieceY;
 
         /**
          * Creates basic message object
@@ -166,8 +218,11 @@ public class Message implements JSONSerializable {
          * @param _move Move that the other player has made
          * @return This Builder
          */
-        public Builder setMove(String _move) {
+        public Builder setMove(String _move, int _pieceX, int _pieceY) {
             move = _move;
+            pieceX = _pieceX;
+            pieceY = _pieceY;
+
             return this;
         }
 
@@ -180,6 +235,7 @@ public class Message implements JSONSerializable {
         public Builder setGame(Boolean _isRunning, String _reason) {
             isRunning = _isRunning;
             reason = _reason;
+
             return this;
         }
 

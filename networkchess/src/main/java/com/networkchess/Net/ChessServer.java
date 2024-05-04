@@ -1,5 +1,7 @@
 package com.networkchess.Net;
 
+import merrimackutil.json.types.JSONObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -7,6 +9,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static merrimackutil.json.JsonIO.readObject;
 
 /**
  * This is the server that handles the connection between the players
@@ -58,8 +62,9 @@ public class ChessServer {
 
                 //create message
                 Message whiteWelcome = new Message.Builder("WELCOME").setWelcome("white").build();
+
                 //send message over output stream
-                PrintWriter whiteSend = new PrintWriter(whiteSock.getOutputStream());
+                PrintWriter whiteSend = new PrintWriter(whiteSock.getOutputStream(),true);
                 whiteSend.println(whiteWelcome.serialize());
 
                 System.out.print("White Player connected: " + whiteSock.getRemoteSocketAddress() +"...");
@@ -68,9 +73,9 @@ public class ChessServer {
                 Socket blackSock = server.accept();
 
                 //create message
-                Message blackWelcome = new Message.Builder("WELCOME").setWelcome("white").build();
+                Message blackWelcome = new Message.Builder("WELCOME").setWelcome("black").build();
                 //send message over output stream
-                PrintWriter blackSend = new PrintWriter(blackSock.getOutputStream());
+                PrintWriter blackSend = new PrintWriter(blackSock.getOutputStream(),true);
                 blackSend.println(blackWelcome.serialize());
 
                 System.out.print("Black Player connected: " + blackSock.getRemoteSocketAddress() +"...");
@@ -113,27 +118,90 @@ public class ChessServer {
          */
         @Override
         public void run() {
+            Scanner whiteRecv = null;
+            PrintWriter whiteSend = null;
+
+            Scanner blackRecv = null;
+            PrintWriter blackSend = null;
+
             try {
                 //get input and output streams for players
-                Scanner whiteRecv = new Scanner(whiteSock.getInputStream());
-                PrintWriter whiteSend = new PrintWriter(whiteSock.getOutputStream());
+                whiteRecv = new Scanner(whiteSock.getInputStream());
+                whiteSend = new PrintWriter(whiteSock.getOutputStream(),true);
 
-                Scanner blackRecv = new Scanner(blackSock.getInputStream());
-                PrintWriter blackSend = new PrintWriter(blackSock.getOutputStream());
+                blackRecv = new Scanner(blackSock.getInputStream());
+                blackSend = new PrintWriter(blackSock.getOutputStream(),true);
 
                 //send message to both players letting them know the game can begin
-                Message startGame = new Message.Builder("GAME").setGame(true,"Both players have joined").build();
+                Message startGame = new Message.Builder("GAME").setGame(true,"Both players have " +
+                        "joined starting game good luck!").build();
+
 
                 whiteSend.println(startGame.serialize());
                 blackSend.println(startGame.serialize());
 
                 //enter loop to deal with game
                 while (true) {
-                    //TO:DO handle game connection
+                    //get the next message from the white player
+                    JSONObject whiteJSON = readObject(whiteRecv.nextLine());
+                    Message whiteRecvMessage = new Message(whiteJSON);
+
+                    String whiteMessageType = whiteRecvMessage.getType();
+
+                    //check if we get a bad message if so end the game
+                    if (!(whiteMessageType.equals("MOVE") || whiteMessageType.equals("GAME"))) {
+                        System.err.println("We recieved a bad message, ending game");
+                        System.err.println(whiteRecvMessage);
+
+                        //we will end game
+                        Message gameError = new Message.Builder("GAME").setGame(false,
+                                "Server encountered an error when parsing message from white player").build();
+
+                        whiteSend.println(gameError.serialize());
+                        blackSend.println(gameError.serialize());
+
+                        return;
+                    }
+
+                    //send message to the black player
+                    blackSend.println(whiteRecvMessage.serialize());
+
+                    //get message from black player
+                    JSONObject blackJSON = readObject(blackRecv.nextLine());
+                    Message blackRecvMessage = new Message(blackJSON);
+
+                    //get type of message
+                    String messageType = blackRecvMessage.getType();
+
+                    //check if we get a bad message if so end the game
+                    if (!(messageType.equals("MOVE") || messageType.equals("GAME"))) {
+                        System.err.println("We recieved a bad message, ending game");
+                        System.err.println(blackRecvMessage);
+
+                        //we will end game
+                        Message gameError = new Message.Builder("GAME").setGame(false,
+                                "Server encountered an error when parsing message from the black player").build();
+
+                        whiteSend.println(gameError.serialize());
+                        blackSend.println(gameError.serialize());
+
+                        return;
+                    }
+
+                    //send the message from the white player to the black player
+                     whiteSend.println(blackRecvMessage.serialize());
                 }
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                //we encountered an error so end game
+                Message gameError = new Message.Builder("GAME").setGame(false,"The Server has " +
+                        "encountered an error, please try again later").build();
+
+                whiteSend.println(gameError.serialize());
+                blackSend.println(gameError.serialize());
+
+                System.err.println("Server encountered an exception");
+                System.err.println(e);
             }
         }
     }
