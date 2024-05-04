@@ -146,6 +146,7 @@ public class ChessServer {
                     JSONObject whiteJSON = readObject(whiteRecv.nextLine());
                     Message whiteRecvMessage = new Message(whiteJSON);
 
+                    //get type of message
                     String whiteMessageType = whiteRecvMessage.getType();
 
                     //check if we get a bad message if so end the game

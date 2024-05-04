@@ -42,11 +42,23 @@ public class Model extends JPanel implements Runnable {
      * int of the port the central server is listening on
      */
     private int serverPort;
-
+    /**
+     * The color of player we are: white or black
+     */
     private String color = "";
+    /**
+     * boolean for if it is our turn
+     */
     private boolean isTurn = false;
-
+    /**
+     * Output stream to server
+     */
     private PrintWriter send;
+    /**
+     * Boolean for if we should end the game
+     *
+     * May do more with this later
+     */
     private boolean endGame = false;
 
 
@@ -73,6 +85,9 @@ public class Model extends JPanel implements Runnable {
         updateGame();
     }
 
+    /**
+     * Connects to chess server and handles messages
+     */
     @Override
     public void run() {
         try {
@@ -181,16 +196,19 @@ public class Model extends JPanel implements Runnable {
                 //if piece is not null add a button to represent it
                 if (currPiece != null) {
                     pieceButton = new JButton(currPiece.getColor() + " " + currPiece.toString());
+                    //column and row of current piece to send to server
                     int pieceX = column;
                     int pieceY = row;
                     pieceButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            //check if it is our turn
                             if (!isTurn) {
                                 JOptionPane.showMessageDialog(null, "Cannot move it is not our turn");
                                 return;
                             }
 
+                            //check if it is our piece
                             if (!currPiece.getColor().equals(color)) {
                                 JOptionPane.showMessageDialog(null,"Cannot move the opponents pieces" +
                                         "you are the " + color + " player");
@@ -206,11 +224,13 @@ public class Model extends JPanel implements Runnable {
                                 return;
                             }
 
+                            //check if the move is possible
                             if (!currPiece.possibleMoves().contains(input)) {
                                 JOptionPane.showMessageDialog(null, "Move " + input + " is not " +
                                         "possible");
                                 return;
                             }
+
                             //move piece
                             board.updateBoard(currPiece,input);
 
