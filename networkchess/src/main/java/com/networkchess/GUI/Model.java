@@ -5,6 +5,7 @@ import com.networkchess.GameLogic.pieces.Piece;
 import com.networkchess.Net.Message;
 import merrimackutil.json.types.JSONObject;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import static merrimackutil.json.JsonIO.readObject;
@@ -23,7 +26,7 @@ import static merrimackutil.json.JsonIO.readObject;
  */
 public class Model extends JPanel implements Runnable {
     /**
-     * Board object which has all of our peices
+     * Board object which has all of our pieces
      */
     private Board board = new Board();
     /**
@@ -61,6 +64,10 @@ public class Model extends JPanel implements Runnable {
      */
     private boolean endGame = false;
 
+    /**
+     * HashMap to store icons for each chess piece
+     */
+    private HashMap<String, ImageIcon> pieceIcons = new HashMap<>();
 
     /**
      * Creates model for internal representation of chess game
@@ -70,6 +77,8 @@ public class Model extends JPanel implements Runnable {
         name = _name;
         serverAddr = _serverAddr;
         serverPort = _serverPort;
+
+        loadPieceIcons();
 
         //adds board object toString as a placeholder
         this.setLayout(new BorderLayout());
@@ -83,6 +92,28 @@ public class Model extends JPanel implements Runnable {
 
         //updates game
         updateGame();
+    }
+
+    /**
+     * Load icons for each chess piece into the HashMap
+     */
+    private void loadPieceIcons() {
+        try {
+            pieceIcons.put("white_king", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/whiteKing.png"))));
+            pieceIcons.put("black_king", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/blackKing.png"))));
+            pieceIcons.put("white_queen", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/whiteQueen.png"))));
+            pieceIcons.put("black_queen", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/blackQueen.png"))));
+            pieceIcons.put("white_rook", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/whiteRook.png"))));
+            pieceIcons.put("black_rook", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/blackRook.png"))));
+            pieceIcons.put("white_bishop", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/whiteBishop.png"))));
+            pieceIcons.put("black_bishop", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/blackBishop.png"))));
+            pieceIcons.put("white_knight", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/whiteKnight.png"))));
+            pieceIcons.put("black_knight", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/blackKnight.png"))));
+            pieceIcons.put("white_pawn", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/whitePawn.png"))));
+            pieceIcons.put("black_pawn", new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/PiecePNGS/blackPawn.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -168,7 +199,7 @@ public class Model extends JPanel implements Runnable {
      * This method will update the game window to whatever the current boards view of the game is
      */
     private void updateGame() {
-        //create new game Jpanel
+        //create new game JPanel
         JPanel gameJpanel = new JPanel(new GridBagLayout());
         gameJpanel.setBackground(new Color(209, 135, 61));
 
@@ -195,10 +226,13 @@ public class Model extends JPanel implements Runnable {
 
                 //if piece is not null add a button to represent it
                 if (currPiece != null) {
-                    pieceButton = new JButton(currPiece.getColor() + " " + currPiece.toString());
+                    String pieceKey = currPiece.getColor() + "_" + currPiece.getClass().getSimpleName().toLowerCase();
+                    ImageIcon icon = pieceIcons.get(pieceKey);
+                    pieceButton = new JButton(icon);
                     //column and row of current piece to send to server
                     int pieceX = column;
                     int pieceY = row;
+                    pieceButton.setActionCommand(column + ";" + row); // Set the position as action command
                     pieceButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -273,7 +307,7 @@ public class Model extends JPanel implements Runnable {
         for (int i = 0; i < 8; i++) {
             //get letter from number
             char column = (char) (i + 'A');
-            //create Jlabel with letter
+            //create JLabel with letter
             JLabel columnLabel = new JLabel(String.valueOf(column));
             //add JLabel
             gameJpanel.add(columnLabel, gridBagConstraints);
