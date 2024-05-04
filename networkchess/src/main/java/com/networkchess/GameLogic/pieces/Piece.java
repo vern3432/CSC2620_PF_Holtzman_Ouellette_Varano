@@ -47,6 +47,14 @@ public abstract class Piece {
         this.currPosition = currPosition;
     }
 
+    public int getX() {
+        return Integer.parseInt(currPosition.split(";")[0]);
+    }
+
+    public int getY() {
+        return Integer.parseInt(currPosition.split(";")[1]);
+    }
+
     public Boolean isOp(Piece piece) {
         if (this.color.equals(piece.getColor())) {
             return false;
