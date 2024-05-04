@@ -68,6 +68,7 @@ public class Model extends JPanel implements Runnable {
      * HashMap to store icons for each chess piece
      */
     private HashMap<String, ImageIcon> pieceIcons = new HashMap<>();
+    JPanel gameJpanel = new JPanel(new GridBagLayout());
 
     /**
      * Creates model for internal representation of chess game
@@ -200,7 +201,7 @@ public class Model extends JPanel implements Runnable {
      */
     private void updateGame() {
         //create new game JPanel
-        JPanel gameJpanel = new JPanel(new GridBagLayout());
+        this.gameJpanel = new JPanel(new GridBagLayout());
         gameJpanel.setBackground(new Color(209, 135, 61));
 
         // Turn indicator
@@ -260,34 +261,8 @@ public class Model extends JPanel implements Runnable {
                                 return;
                             }
                             //get user input
-                            String input = JOptionPane.showInputDialog("Please enter position to move piece, current pos is: " + currPiece.getCurrPosition()
-                            + "\n Can move: " + currPiece.possibleMoves()
-                            );
-
-                            //could be null if so return
-                            if (input == null) {
-                                return;
-                            }
-
-                            //check if the move is possible
-                            if (!currPiece.possibleMoves().contains(input)) {
-                                JOptionPane.showMessageDialog(null, "Move " + input + " is not " +
-                                        "possible");
-                                return;
-                            }
-
-                            //move piece
-                            board.updateBoard(currPiece,input);
-
-                            //send move to server
-                            Message move = new Message.Builder("MOVE").setMove(input,pieceX,pieceY).build();
-                            send.println(move.serialize());
-
-                            //update turn
-                            isTurn = false;
-
-                            //update board
-                            updateGame();
+                            LinkedList<String> moves = currPiece.possibleMoves();
+                            highlightMoves(moves, currPiece, pieceX, pieceY);
                         }
                     });
                 }
@@ -339,5 +314,37 @@ public class Model extends JPanel implements Runnable {
         System.out.println(board);
         //revalidate gui
         revalidate();
+    }
+    
+    private void highlightMoves(LinkedList<String> moves, Piece selectedPiece, int pieceX, int pieceY) {
+        for (String move : moves) {
+            int x = Integer.parseInt(move.split(";")[0]);
+            int y = Integer.parseInt(move.split(";")[1]);
+            JButton moveButton = (JButton) gameJpanel.getComponent((8-y)*8 + (x-1));
+            moveButton.setBackground(Color.YELLOW);
+            moveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    confirmMove(move, selectedPiece, pieceX, pieceY);
+                }
+            });
+        }
+    }
+
+    private void confirmMove(String move, Piece selectedPiece, int pieceX, int pieceY) {
+        int result = JOptionPane.showConfirmDialog(null, "Move to " + move + "?", "Confirm Move", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            String[] parts = move.split(";");
+            int newX = Integer.parseInt(parts[0]);
+            int newY = Integer.parseInt(parts[1]);
+            board.updateBoard(selectedPiece, newX + ";" + newY);
+            sendMoveToServer(newX, newY, pieceX, pieceY);
+            updateGame();
+        }
+    }
+
+    private void sendMoveToServer(int newX, int newY, int pieceX, int pieceY) {
+        Message move = new Message.Builder("MOVE").setMove(newX + ";" + newY, pieceX, pieceY).build();
+        send.println(move.serialize());
     }
 }
