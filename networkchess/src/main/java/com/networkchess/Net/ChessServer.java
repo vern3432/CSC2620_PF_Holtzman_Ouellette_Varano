@@ -201,7 +201,8 @@ public class ChessServer {
                 whiteSend.println(gameError.serialize());
                 blackSend.println(gameError.serialize());
 
-                System.err.println("Server encountered an exception");
+                System.err.println();
+                System.err.println("Server encountered an exception, attempting to end the game");
                 System.err.println(e);
             }
         }

@@ -85,9 +85,6 @@ public class Message implements JSONSerializable {
 
         //deserialize JSONObject based on type of Message JSON
         switch(type) {
-            case "HELLO":
-                //HELLO only has type so do nothing
-                break;
             case "WELCOME":
                 color = messageJSON.getString("color");
 
@@ -119,10 +116,6 @@ public class Message implements JSONSerializable {
 
         //switch between types and put needed fields into JSONObject
         switch(type) {
-            case "HELLO":
-                messageJSON.put("type",type);
-
-                return messageJSON;
             case "WELCOME":
                 messageJSON.put("type",type);
                 messageJSON.put("color",color);
