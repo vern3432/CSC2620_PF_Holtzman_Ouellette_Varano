@@ -64,6 +64,41 @@ public class ViewController extends JFrame {
     public ViewController() {
         super("SAS Chess"); //Sean Aidan Seth
 
+        // Create the menu bar
+        JMenuBar menuBar = new JMenuBar();
+
+        // Build the first menu.
+        JMenu menu = new JMenu("File");
+        menuBar.add(menu);
+
+        // Menu item for returning to the main menu
+        JMenuItem menuItemMenu = new JMenuItem("Return to Menu");
+        menuItemMenu.addActionListener(e -> centerCard.show(chessPanel, "_menu"));
+        menu.add(menuItemMenu);
+
+        // Menu item for creating a new game
+        JMenuItem menuItemNewGame = new JMenuItem("New Game");
+        menuItemNewGame.addActionListener(e -> {
+            String input = JOptionPane.showInputDialog("Welcome enter the name of this game");
+            if (input != null && !games.containsKey(input)) {
+                addGame(input);
+            } else if (input != null) {
+                JOptionPane.showMessageDialog(null, "Game name is already taken please try again");
+            }
+        });
+        menu.add(menuItemNewGame);
+
+        // Test game menu item for quick testing
+        JMenuItem menuItemTestGame = new JMenuItem("Test Game");
+        menuItemTestGame.addActionListener(e -> addGame("Test game"));
+        menu.add(menuItemTestGame);
+
+        // Set the menu bar
+        setJMenuBar(menuBar);
+
+        // Layout and other initializations follow...
+        // (rest of the constructor)
+
         //we should move this to config file later
         threads = 10;
         serverAddr = "127.0.0.1";
@@ -78,59 +113,6 @@ public class ViewController extends JFrame {
         //set the center panel to a card layout and add it to the center
         chessPanel.setLayout(centerCard);
         this.add(chessPanel, BorderLayout.CENTER);
-
-        //doing this as a simple JButton layout for now I may change it for tabs
-
-        //create menu Panel to add menu later
-        JPanel menuPanel = new JPanel();
-        menuPanel.add(new JLabel("Example menu"));
-
-        //add it to our center panels
-        chessPanel.add("_menu",menuPanel);
-
-        //create menu button to go back to menu
-        JButton menuButton = new JButton("menu");
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //show menu screen when button is pressed
-                centerCard.show(chessPanel,"_menu");
-
-                revalidate();
-            }
-        });
-
-        //Create new game button
-        JButton newGame = new JButton("New game");
-        newGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //get user input
-                String input = JOptionPane.showInputDialog("Welcome enter the name of this game");
-
-                //could be null if so return
-                if (input == null) {
-                    return;
-                }
-
-                //check if name exists
-                if (games.containsKey(input)) {
-                    JOptionPane.showMessageDialog(null,"Game name is already taken please try again");
-                    return;
-                }
-
-                //add game based on name
-                addGame(input);
-            }
-        });
-
-        //create buttonholder and add buttons
-        JPanel buttonHolder = new JPanel(new GridLayout(1,10,10,10));
-        buttonHolder.add(menuButton);
-        buttonHolder.add(newGame);
-
-        //add button holder to north
-        this.add(buttonHolder,BorderLayout.NORTH);
 
         //add game buttons to east(this may be changed just easy)
         this.add(gameButtons,BorderLayout.EAST);

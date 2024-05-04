@@ -2,7 +2,7 @@ package com.networkchess.GUI;
 
 import javax.swing.*;
 
-public class Main {
+public class Player1Main {
     public static void main(String[] args) {
         ViewController gui = new ViewController();
         // What to do when the window closes:
