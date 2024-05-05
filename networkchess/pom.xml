@@ -16,6 +16,13 @@
 
     <!-- Define dependencies -->
     <dependencies>
+
+          <dependency>
+              <groupId>javazoom</groupId>
+              <artifactId>jlayer</artifactId>
+              <version>1.0.1</version>
+          </dependency>
+
         <dependency>
           <groupId>com.example</groupId> <!-- Update this with the actual groupId of merrimackutil.jar -->
           <artifactId>merrimackutil</artifactId> <!-- Update this with the actual artifactId of merrimackutil.jar -->
@@ -23,6 +30,7 @@
           <scope>system</scope>
           <systemPath>${project.basedir}/lib/merrimackutil.jar</systemPath>
         </dependency>
+        
       </dependencies>
       
     <!-- Define build configuration -->
