@@ -211,8 +211,6 @@ public class Board {
                 Integer ny = Integer.valueOf(nxy[1]) - 1;
 
                 gameBoard[px][py] = null;
-                gameBoard[nx][ny] = piece; // Set the piece to the new position
-                piece.setCurrPosition(newPosition); // Update the piece's current position
                 if (piece instanceof Pawn && ny == 8) {
                     if (checkCheck(piece.getColor())) {
                         JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
