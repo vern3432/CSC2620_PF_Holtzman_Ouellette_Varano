@@ -453,6 +453,7 @@ public class Model extends JPanel implements Runnable {
         resetHighlights(); // Reset all highlights before setting new ones
         updateGame2();
         for (String move : moves) {
+            System.out.println("Move: " + move);
             int x = Integer.parseInt(move.split(";")[0]);
             int y = Integer.parseInt(move.split(";")[1]);
             JButton moveButton = (JButton) buttonMap.get(move);
