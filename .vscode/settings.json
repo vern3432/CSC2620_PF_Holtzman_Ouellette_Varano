@@ -1,3 +1,6 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "plantuml.commandArgs": [
+        "-DPLANTUML_LIMIT_SIZE=15000"
+    ]
 }

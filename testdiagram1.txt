@@ -1,0 +1,357 @@
+@startuml
+
+class com.networkchess.GUI.Model {
+	{field} -boardLabel : javax.swing.JTextArea
+	{field} -buttonMap : java.util.HashMap
+	{field} -color : String
+	{field} -endGame : boolean
+	{field} ~gameJpanel : javax.swing.JPanel
+	{field} -isTurn : boolean
+	{field} -name : String
+	{field} -pieceIcons : java.util.HashMap
+	{field} -send : java.io.PrintWriter
+	{field} -serverAddr : String
+	{field} -serverPort : int
+	{method}  {static} ~access$000 ( paramModel1 : com.networkchess.GUI.Model ) : boolean
+	{method}  {static} ~access$100 ( paramModel1 : com.networkchess.GUI.Model ) : String
+	{method}  {static} ~access$200 ( paramModel1 : com.networkchess.GUI.Model , paramLinkedList2 : java.util.LinkedList , paramPiece3 : com.networkchess.GameLogic.pieces.Piece , paramint4 : int , paramint5 : int ) : void
+	{method}  {static} ~access$300 ( paramModel1 : com.networkchess.GUI.Model , paramString2 : String , paramPiece3 : com.networkchess.GameLogic.pieces.Piece , paramint4 : int , paramint5 : int ) : void
+	{method} -confirmMove ( paramString1 : String , paramPiece2 : com.networkchess.GameLogic.pieces.Piece , paramint3 : int , paramint4 : int ) : void
+	{method} -highlightMoves ( paramLinkedList1 : java.util.LinkedList , paramPiece2 : com.networkchess.GameLogic.pieces.Piece , paramint3 : int , paramint4 : int ) : void
+	{method} -loadPieceIcons () : void
+	{method} -resetHighlights () : void
+	{method} +run () : void
+	{method} -sendMoveToServer ( paramint1 : int , paramint2 : int , paramint3 : int , paramint4 : int ) : void
+	{method} -updateGame () : void
+	{method} -updateGame2 () : void
+}
+
+
+class com.networkchess.GUI.Model$1 {
+	{field} ~val$pieceX : int
+	{field} ~val$pieceY : int
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GUI.Model$2 {
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GUI.Model$3 {
+	{field} ~val$pieceX : int
+	{field} ~val$pieceY : int
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GUI.Model$4 {
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GUI.Model$5 {
+	{field} ~val$move : String
+	{field} ~val$pieceX : int
+	{field} ~val$pieceY : int
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GUI.Player1Main {
+	{method}  {static} +main ( paramString;1 : [Ljava.lang.String; ) : void
+}
+
+
+class com.networkchess.GUI.Player2Main {
+	{method}  {static} +main ( paramString;1 : [Ljava.lang.String; ) : void
+}
+
+
+class com.networkchess.GUI.VictoryPopup {
+	{field} -clip : javax.sound.sampled.Clip
+	{method} -initializeUI () : void
+	{method} -lambda$initializeUI$0 ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+	{method}  {static} +main ( paramString;1 : [Ljava.lang.String; ) : void
+	{method} -playSound () : void
+}
+
+
+class com.networkchess.GUI.ViewController {
+	{field} -centerCard : java.awt.CardLayout
+	{field} -chessPanel : javax.swing.JPanel
+	{field} -gameButtons : javax.swing.JPanel
+	{field} -gameButtonsLayout : java.awt.GridLayout
+	{field} -games : java.util.HashMap
+	{field} -pools : java.util.concurrent.ExecutorService
+	{field} -serverAddr : String
+	{field} -serverPort : int
+	{field} -threads : int
+	{method}  {static} ~access$000 ( paramViewController1 : com.networkchess.GUI.ViewController ) : javax.swing.JPanel
+	{method}  {static} ~access$100 ( paramViewController1 : com.networkchess.GUI.ViewController ) : java.awt.CardLayout
+	{method}  {static} ~access$202 ( paramViewController1 : com.networkchess.GUI.ViewController , paramModel2 : com.networkchess.GUI.Model ) : com.networkchess.GUI.Model
+	{method}  {static} ~access$300 ( paramViewController1 : com.networkchess.GUI.ViewController ) : java.util.HashMap
+	{method} -addGame ( paramString1 : String ) : void
+	{method} -lambda$new$0 ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+	{method} -lambda$new$1 ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+	{method} -lambda$new$2 ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GUI.ViewController$1 {
+	{field} ~val$name : String
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GameLogic.Board {
+	{field} -attSquares : java.util.HashMap
+	{field} -blackPawns : java.util.LinkedList
+	{field} -gameBoard : [[Lcom.networkchess.GameLogic.pieces.Piece;
+	{field} -moveNum : Integer
+	{field} -takenPieces : java.util.HashMap
+	{field} -whitePawns : java.util.LinkedList
+	{method} +checkCheck ( paramString1 : String ) : Boolean
+	{method} +getPosition ( paramInteger1 : Integer , paramInteger2 : Integer ) : com.networkchess.GameLogic.pieces.Piece
+	{method} +toString () : String
+	{method} +updateAttSquares () : void
+	{method} +updateBoard ( paramPawn1 : com.networkchess.GameLogic.pieces.Pawn , paramPiece2 : com.networkchess.GameLogic.pieces.Piece ) : void
+	{method} +updateBoard ( paramPiece1 : com.networkchess.GameLogic.pieces.Piece , paramString2 : String ) : void
+}
+
+
+class com.networkchess.GameLogic.Board$PromotionPopUp {
+	{method}  {static} ~access$000 ( paramBoard$PromotionPopUp1 : com.networkchess.GameLogic.Board$PromotionPopUp ) : com.networkchess.GameLogic.pieces.Piece
+	{method}  {static} ~access$002 ( paramBoard$PromotionPopUp1 : com.networkchess.GameLogic.Board$PromotionPopUp , paramPiece2 : com.networkchess.GameLogic.pieces.Piece ) : com.networkchess.GameLogic.pieces.Piece
+	{method}  {static} ~access$100 ( paramBoard$PromotionPopUp1 : com.networkchess.GameLogic.Board$PromotionPopUp ) : com.networkchess.GameLogic.pieces.Pawn
+	{method}  {static} ~access$102 ( paramBoard$PromotionPopUp1 : com.networkchess.GameLogic.Board$PromotionPopUp , paramPawn2 : com.networkchess.GameLogic.pieces.Pawn ) : com.networkchess.GameLogic.pieces.Pawn
+}
+
+
+class com.networkchess.GameLogic.Board$PromotionPopUp$1 {
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GameLogic.Board$PromotionPopUp$2 {
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GameLogic.Board$PromotionPopUp$3 {
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GameLogic.Board$PromotionPopUp$4 {
+	{method} +actionPerformed ( paramActionEvent1 : java.awt.event.ActionEvent ) : void
+}
+
+
+class com.networkchess.GameLogic.Main {
+	{method}  {static} +main ( paramString;1 : [Ljava.lang.String; ) : void
+}
+
+
+class com.networkchess.GameLogic.pieces.Bishop {
+	{method} -checkDirection ( paramint1 : int , paramint2 : int , paramLinkedList3 : java.util.LinkedList ) : void
+	{method} +movePos ( paramString1 : String ) : Boolean
+	{method} +possibleMoves () : java.util.LinkedList
+	{method} +toString () : String
+}
+
+
+class com.networkchess.GameLogic.pieces.King {
+	{field} -movedYet : Boolean
+	{method} -kingSideCastle () : Boolean
+	{method} -moveCheck ( paramInteger1 : Integer , paramInteger2 : Integer ) : Boolean
+	{method} +movePos ( paramString1 : String ) : Boolean
+	{method} +moved () : void
+	{method} +possibleMoves () : java.util.LinkedList
+	{method} -queenSideCastle () : Boolean
+	{method} +toString () : String
+}
+
+
+class com.networkchess.GameLogic.pieces.Knight {
+	{method} -flag ( paramint1 : int , paramint2 : int ) : Boolean
+	{method} +movePos ( paramString1 : String ) : Boolean
+	{method} +possibleMoves () : java.util.LinkedList
+	{method} +toString () : String
+}
+
+
+class com.networkchess.GameLogic.pieces.Pawn {
+	{field} -moveMF2 : Integer
+	{field} -movedYet : Boolean
+	{method} +movePos ( paramString1 : String ) : Boolean
+	{method} +moved () : void
+	{method} +posAttackMoves () : java.util.LinkedList
+	{method} +possibleMoves () : java.util.LinkedList
+	{method} +toString () : String
+}
+
+
+abstract class com.networkchess.GameLogic.pieces.Piece {
+	{field} -color : String
+	{field} +currPosition : String
+	{method} +getX () : int
+	{method} +getY () : int
+	{method} +isOp ( paramPiece1 : com.networkchess.GameLogic.pieces.Piece ) : Boolean
+	{method}  {abstract} +movePos ( paramString1 : String ) : Boolean
+	{method}  {abstract} +possibleMoves () : java.util.LinkedList
+}
+
+
+class com.networkchess.GameLogic.pieces.Queen {
+	{method} -checkDirection ( paramint1 : int , paramint2 : int , paramLinkedList3 : java.util.LinkedList ) : void
+	{method} +movePos ( paramString1 : String ) : Boolean
+	{method} +possibleMoves () : java.util.LinkedList
+	{method} +toString () : String
+}
+
+
+class com.networkchess.GameLogic.pieces.Rook {
+	{field} -movedYet : Boolean
+	{method} -checkDirection ( paramint1 : int , paramint2 : int , paramLinkedList3 : java.util.LinkedList ) : void
+	{method} +movePos ( paramString1 : String ) : Boolean
+	{method} +moved () : void
+	{method} +possibleMoves () : java.util.LinkedList
+	{method} +toString () : String
+}
+
+
+class com.networkchess.Net.ChessServer {
+	{field} -addr : String
+	{field} -port : int
+	{field} -server : java.net.ServerSocket
+	{field} -threads : int
+}
+
+
+class com.networkchess.Net.ChessServer$ConnectionHandler {
+	{field} ~blackSock : java.net.Socket
+	{field} ~whiteSock : java.net.Socket
+	{method} +run () : void
+}
+
+
+class com.networkchess.Net.Driver {
+	{field} {static} -addr : String
+	{field} {static} -configFile : String
+	{field} {static} -port : int
+	{field} {static} -threads : int
+	{method}  {static} -loadConfig ( paramString1 : String ) : void
+	{method}  {static} +main ( paramString;1 : [Ljava.lang.String; ) : void
+	{method}  {static} -usage () : void
+}
+
+
+class com.networkchess.Net.Message {
+	{field} -color : String
+	{field} -isRunning : boolean
+	{field} -move : String
+	{field} -pieceX : int
+	{field} -pieceY : int
+	{field} -reason : String
+	{field} -type : String
+	{method} +deserialize ( paramJSONType1 : merrimackutil.json.types.JSONType ) : void
+	{method} +isRunning () : boolean
+	{method} +serialize () : String
+	{method} +toJSONType () : merrimackutil.json.types.JSONType
+	{method} +toString () : String
+}
+
+
+class com.networkchess.Net.Message$1 {
+}
+
+
+class com.networkchess.Net.Message$Builder {
+	{field} -color : String
+	{field} -isRunning : boolean
+	{field} -move : String
+	{field} -pieceX : int
+	{field} -pieceY : int
+	{field} -reason : String
+	{field} -type : String
+	{method}  {static} ~access$000 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : String
+	{method}  {static} ~access$100 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : String
+	{method}  {static} ~access$200 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : String
+	{method}  {static} ~access$300 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : int
+	{method}  {static} ~access$400 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : int
+	{method}  {static} ~access$500 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : boolean
+	{method}  {static} ~access$600 ( paramMessage$Builder1 : com.networkchess.Net.Message$Builder ) : String
+	{method} +build () : com.networkchess.Net.Message
+	{method} +setGame ( paramBoolean1 : Boolean , paramString2 : String ) : com.networkchess.Net.Message$Builder
+	{method} +setWelcome ( paramString1 : String ) : com.networkchess.Net.Message$Builder
+}
+
+
+
+
+com.networkchess.GUI.Model -->  com.networkchess.GameLogic.Board : board
+com.networkchess.GUI.Model$1 -->  com.networkchess.GUI.Model : this$0
+com.networkchess.GUI.Model$1 -->  com.networkchess.GameLogic.pieces.Piece : val$currPiece
+com.networkchess.GUI.Model$2 -->  com.networkchess.GUI.Model : this$0
+com.networkchess.GUI.Model$3 -->  com.networkchess.GUI.Model : this$0
+com.networkchess.GUI.Model$3 -->  com.networkchess.GameLogic.pieces.Piece : val$currPiece
+com.networkchess.GUI.Model$4 -->  com.networkchess.GUI.Model : this$0
+com.networkchess.GUI.Model$5 -->  com.networkchess.GUI.Model : this$0
+com.networkchess.GUI.Model$5 -->  com.networkchess.GameLogic.pieces.Piece : val$selectedPiece
+com.networkchess.GUI.ViewController -->  com.networkchess.GUI.Model : currGame
+com.networkchess.GUI.ViewController$1 -->  com.networkchess.GUI.ViewController : this$0
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.Board$PromotionPopUp : popUp
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Bishop : blackBishopK
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Bishop : blackBishopQ
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Bishop : whiteBishopK
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Bishop : whiteBishopQ
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.King : blackKing
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.King : whiteKing
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Knight : blackKnightK
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Knight : blackKnightQ
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Knight : whiteKnightK
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Knight : whiteKnightQ
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Queen : blackQueen
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Queen : whiteQueen
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Rook : blackRookK
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Rook : blackRookQ
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Rook : whiteRookK
+com.networkchess.GameLogic.Board -->  com.networkchess.GameLogic.pieces.Rook : whiteRookQ
+com.networkchess.GameLogic.Board$PromotionPopUp -->  com.networkchess.GameLogic.Board : this$0
+com.networkchess.GameLogic.Board$PromotionPopUp -->  com.networkchess.GameLogic.pieces.Pawn : piece
+com.networkchess.GameLogic.Board$PromotionPopUp -->  com.networkchess.GameLogic.pieces.Piece : promotedToPiece
+com.networkchess.GameLogic.Board$PromotionPopUp$1 -->  com.networkchess.GameLogic.Board : val$b
+com.networkchess.GameLogic.Board$PromotionPopUp$1 -->  com.networkchess.GameLogic.Board : val$this$0
+com.networkchess.GameLogic.Board$PromotionPopUp$1 -->  com.networkchess.GameLogic.Board$PromotionPopUp : this$1
+com.networkchess.GameLogic.Board$PromotionPopUp$2 -->  com.networkchess.GameLogic.Board : val$b
+com.networkchess.GameLogic.Board$PromotionPopUp$2 -->  com.networkchess.GameLogic.Board : val$this$0
+com.networkchess.GameLogic.Board$PromotionPopUp$2 -->  com.networkchess.GameLogic.Board$PromotionPopUp : this$1
+com.networkchess.GameLogic.Board$PromotionPopUp$3 -->  com.networkchess.GameLogic.Board : val$b
+com.networkchess.GameLogic.Board$PromotionPopUp$3 -->  com.networkchess.GameLogic.Board : val$this$0
+com.networkchess.GameLogic.Board$PromotionPopUp$3 -->  com.networkchess.GameLogic.Board$PromotionPopUp : this$1
+com.networkchess.GameLogic.Board$PromotionPopUp$4 -->  com.networkchess.GameLogic.Board : val$b
+com.networkchess.GameLogic.Board$PromotionPopUp$4 -->  com.networkchess.GameLogic.Board : val$this$0
+com.networkchess.GameLogic.Board$PromotionPopUp$4 -->  com.networkchess.GameLogic.Board$PromotionPopUp : this$1
+com.networkchess.GameLogic.pieces.Bishop --|>  com.networkchess.GameLogic.pieces.Piece
+com.networkchess.GameLogic.pieces.King --|>  com.networkchess.GameLogic.pieces.Piece
+com.networkchess.GameLogic.pieces.Knight --|>  com.networkchess.GameLogic.pieces.Piece
+com.networkchess.GameLogic.pieces.Pawn --|>  com.networkchess.GameLogic.pieces.Piece
+com.networkchess.GameLogic.pieces.Piece -->  com.networkchess.GameLogic.Board : currBoard
+com.networkchess.GameLogic.pieces.Queen --|>  com.networkchess.GameLogic.pieces.Piece
+com.networkchess.GameLogic.pieces.Rook --|>  com.networkchess.GameLogic.pieces.Piece
+com.networkchess.Net.ChessServer$ConnectionHandler -->  com.networkchess.Net.ChessServer : this$0
+
+
+com.networkchess.Net.Message *--  com.networkchess.Net.Message$Builder: Nested
+com.networkchess.Net.ChessServer  -.-> com.networkchess.Net.Driver : Dependency
+com.networkchess.Net.Message *--  com.networkchess.Net.Message$1: Nested
+com.networkchess.GUI.Player1Main   -.-> com.networkchess.GUI.ViewController : Dependency
+com.networkchess.GUI.Player2Main   -.-> com.networkchess.GUI.ViewController : Dependency
+
+
+
+
+
+@enduml
