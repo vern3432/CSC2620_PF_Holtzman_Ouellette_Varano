@@ -1,9 +1,14 @@
 package com.networkchess.GUI;
 
 import javax.swing.*;
-
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 public class Player1Main {
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        // UIManager.setLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel");
+        UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
+
         ViewController gui = new ViewController();
         // What to do when the window closes:
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
