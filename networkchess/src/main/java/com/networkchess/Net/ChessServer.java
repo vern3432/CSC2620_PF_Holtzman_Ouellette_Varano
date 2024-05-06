@@ -45,6 +45,8 @@ public class ChessServer {
         port = _port;
         threads = _threads;
 
+        System.out.println("Starting server on " + addr + "/" + port + " with " + threads + " threads" );
+
         //create thread pool to handle connections
         ExecutorService pool = Executors.newFixedThreadPool(threads);
 
