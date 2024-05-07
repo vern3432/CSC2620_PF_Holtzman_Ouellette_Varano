@@ -64,53 +64,73 @@
                 </configuration>
             </plugin>
 
-            <!-- Plugin for creating JAR files -->
+            <!-- Plugin for creating JAR files with different main classes -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <executions>
-                    <!-- Build JAR for client package -->
                     <execution>
-                        <id>client-jar</id>
+                        <id>jar-with-startup</id>
                         <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <classifier>client</classifier>
-                            <includes>
-                                <include>com/networkchess/ChessClient/**</include>
-                            </includes>
+                            <classifier>startup</classifier>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>${project.build.directory}/libs/</classpathPrefix>
+                                    <mainClass>com.networkchess.GUI.StartUp</mainClass>
+                                </manifest>
+                            </archive>
                         </configuration>
                     </execution>
-
-                    <!-- Build JAR for server package -->
                     <execution>
-                        <id>server-jar</id>
+                        <id>jar-with-driver</id>
                         <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <classifier>server</classifier>
-                            <includes>
-                                <include>com/networkchess/ServerLogic/**</include>
-                            </includes>
+                            <classifier>driver</classifier>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>${project.build.directory}/libs/</classpathPrefix>
+                                    <mainClass>com.networkchess.Net.Driver</mainClass>
+                                </manifest>
+                            </archive>
                         </configuration>
                     </execution>
                 </executions>
-
-
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin> 
                 <artifactId>plantuml-generator-maven-plugin</artifactId>
                 <groupId>de.elnarion.maven</groupId>
                 <version>1.1.2</version>
                 <executions>
                     <execution>
-                        <?m2e execute onConfiguration?>
                         <id>generate-simple-diagram</id>
                         <goals>
                             <goal>generate</goal>
