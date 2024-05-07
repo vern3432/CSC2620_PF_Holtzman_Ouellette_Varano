@@ -63,42 +63,52 @@ public class Pawn extends Piece {
         LinkedList<String> posMoves = new LinkedList<>();
 
         if (getColor().equals("white")) {
+
+            // Movement on the board with the pawn
             if (!movedYet) {
-                if ((y + 2) <= 8 && (b.getPosition(x, y + 2) == null && b.getPosition(x, y + 1) == null)) {
-                    posMoves.add(x + ";" + (y + 2));
-                    moveMF2 = b.getMoveNum();
+                if ((y+2) <= 7 && (b.getPosition(x, y+2) == null && b.getPosition(x, y+1) == null)) {
+                    posMoves.add(x+";"+(y+2));
+                    this.moveMF2 = b.getMoveNum();
                 }
-                if (y + 1 <= 8 && b.getPosition(x, y + 1) == null)
-                    posMoves.add(x + ";" + (y + 1));
+                if (y+1 <=7 && b.getPosition(x, y+1) == null) {
+                    posMoves.add(x+";"+(y+1));
+                }
             }
             else
             {
-                if (y + 1 <= 8 && b.getPosition(x, y + 1) == null)
-                    posMoves.add(x + ";" + (y + 1));
+                if (y+1 <=7 && b.getPosition(x, y+1) == null) {
+                    posMoves.add(x+";"+(y+1));
+                }
             }
 
+            // Pawn attacking movements
             if (x > 1 && x < 8 && y != 8) {
+
+                // normal attacks diagonal
                 if (b.getPosition(x-1, y+1) != null && isOp(b.getPosition(x-1, y+1))) {
                     posMoves.add((x - 1) + ";" + (y + 1));
                 }
-                if (b.getPosition(x+1, y+1) != null && isOp(b.getPosition(x-1, y+1))) {
+                if (b.getPosition(x+1, y+1) != null && isOp(b.getPosition(x+1, y+1))) {
                     posMoves.add((x + 1) + ";" + (y + 1));
                 }
-                Piece leftPice = b.getPosition(x-1, y);
-                Piece rightPice = b.getPosition(x+1, y);
-                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
+
+                // en pessant attacks
+                Piece leftPiece = b.getPosition(x-1, y);
+                Piece rightPiece = b.getPosition(x+1, y);
+                if (leftPiece != null && isOp(leftPiece) && leftPiece instanceof Pawn && ((Pawn)leftPiece).getMoveMF2() != null && ((Pawn)leftPiece).getMoveMF2() == b.getMoveNum() - 1) {
                     posMoves.add((x-1) + ";" + (y+1));
                 }
-                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
-                    posMoves.add((x+1) + ";" + (y+1));   
+                if (rightPiece != null && isOp(rightPiece) && rightPiece instanceof Pawn && ((Pawn)rightPiece).getMoveMF2() != null && ((Pawn)rightPiece).getMoveMF2() == b.getMoveNum() - 1) {
+                    posMoves.add((x+1) + ";" + (y+1));
                 }
+
             }
             if (x == 1 && y != 8) {
                 if (b.getPosition(x+1, y+1) != null && isOp(b.getPosition(x+1, y+1))) {
                     posMoves.add((x + 1) + ";" + (y + 1));
                 }
-                Piece rightPice = b.getPosition(x+1, y);
-                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
+                Piece rightPiece = b.getPosition(x+1, y);
+                if (rightPiece != null && isOp(rightPiece) && rightPiece instanceof Pawn && ((Pawn)rightPiece).getMoveMF2() != null && ((Pawn)rightPiece).getMoveMF2() == b.getMoveNum() - 1) {
                     posMoves.add((x+1) + ";" + (y+1));
                 }
             }
@@ -106,59 +116,69 @@ public class Pawn extends Piece {
                 if (b.getPosition(x-1, y+1) != null && isOp(b.getPosition(x-1, y+1))) {
                     posMoves.add((x - 1) + ";" + (y + 1));
                 }
-                Piece leftPice = b.getPosition(x-1, y);
-                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
+                Piece leftPiece = b.getPosition(x-1, y);
+                if (leftPiece != null && isOp(leftPiece) && leftPiece instanceof Pawn && ((Pawn)leftPiece).getMoveMF2() != null && ((Pawn)leftPiece).getMoveMF2() == b.getMoveNum() - 1) {
                     posMoves.add((x-1) + ";" + (y+1));
                 }
             }
         }
-        else 
+        else
         {
+            // Movement on the board with the pawn
             if (!movedYet) {
-                if (y + 1 <= 8 && (b.getPosition(x, y - 2) == null && b.getPosition(x, y - 1) == null)) {
-                    posMoves.add(x + ";" + (y - 2));
-                    moveMF2 = b.getMoveNum();
+                if ((y-2) >=1 && (b.getPosition(x, y-2) == null && b.getPosition(x, y-1) == null)) {
+                    posMoves.add(x+";"+(y-2));
+                    this.moveMF2 = b.getMoveNum();
                 }
-                if (y + 1 <= 8 && b.getPosition(x, y - 1) == null)
-                    posMoves.add(x + ";" + (y - 1));
+                if (y-1 >=1 && b.getPosition(x, y-1) == null) {
+                    posMoves.add(x+";"+(y-1));
+                }
             }
-            else 
+            else
             {
-                if (y + 1 <= 8 && b.getPosition(x, y - 1) == null)
-                    posMoves.add(x + ";" + (y - 1));
-            }
-            if (x > 1 && x < 8 && y != 8) {
-                if (b.getPosition(x-1, y-1) != null && isOp(b.getPosition(x-1, y+1))) {
-                    posMoves.add((x - 1) + ";" + (y - 1));
-                }
-                if (b.getPosition(x+1, y-1) != null && isOp(b.getPosition(x+1, y+1))) {
-                    posMoves.add((x + 1) + ";" + (y - 1));
-                }
-                Piece leftPice = b.getPosition(x-1, y);
-                Piece rightPice = b.getPosition(x+1, y);
-                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
-                    posMoves.add((x-1) + ";" + (y));
-                }
-                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
-                    posMoves.add((x+1) + ";" + (y));
+                if (y-1 >=1 && b.getPosition(x, y-1) == null) {
+                    posMoves.add(x+";"+(y-1));
                 }
             }
-            if (x == 1 && y != 0) {
-                if (b.getPosition(x+1, y-1) != null && isOp(b.getPosition(x+1, y-1))) {
-                    posMoves.add((x + 1) + ";" + (y - 1));
-                }
-                Piece rightPice = b.getPosition(x+1, y);
-                if (rightPice != null && isOp(rightPice) && rightPice instanceof Pawn && ((Pawn)rightPice).getMoveMF2() != null && ((Pawn)rightPice).getMoveMF2() == b.getMoveNum()-1) {
-                    posMoves.add((x+1) + ";" + (y));
-                }
-            }
-            if (x == 8 && y != 0) {
+
+            // Pawn attacking movements
+            if (x > 1 && x < 8 && y != 1) {
+
+                // normal attacks diagonal
                 if (b.getPosition(x-1, y-1) != null && isOp(b.getPosition(x-1, y-1))) {
                     posMoves.add((x - 1) + ";" + (y - 1));
                 }
-                Piece leftPice = b.getPosition(x-1, y);
-                if (leftPice != null && isOp(leftPice) && leftPice instanceof Pawn && ((Pawn)leftPice).getMoveMF2() != null && ((Pawn)leftPice).getMoveMF2() == b.getMoveNum()-1) {
-                    posMoves.add((x-1) + ";" + (y));
+                if (b.getPosition(x+1, y-1) != null && isOp(b.getPosition(x+1, y-1))) {
+                    posMoves.add((x + 1) + ";" + (y - 1));
+                }
+
+                // en pessant attacks
+                Piece leftPiece = b.getPosition(x-1, y);
+                Piece rightPiece = b.getPosition(x+1, y);
+                if (leftPiece != null && isOp(leftPiece) && leftPiece instanceof Pawn && ((Pawn)leftPiece).getMoveMF2() != null && ((Pawn)leftPiece).getMoveMF2() == b.getMoveNum() - 1) {
+                    posMoves.add((x-1) + ";" + (y-1));
+                }
+                if (rightPiece != null && isOp(rightPiece) && rightPiece instanceof Pawn && ((Pawn)rightPiece).getMoveMF2() != null && ((Pawn)rightPiece).getMoveMF2() == b.getMoveNum() - 1) {
+                    posMoves.add((x+1) + ";" + (y-1));
+                }
+
+            }
+            if (x == 1 && y != 1) {
+                if (b.getPosition(x+1, y-1) != null && isOp(b.getPosition(x-1, y-1))) {
+                    posMoves.add((x + 1) + ";" + (y - 1));
+                }
+                Piece rightPiece = b.getPosition(x+1, y);
+                if (rightPiece != null && isOp(rightPiece) && rightPiece instanceof Pawn && ((Pawn)rightPiece).getMoveMF2() != null && ((Pawn)rightPiece).getMoveMF2() == b.getMoveNum() - 1) {
+                    posMoves.add((x+1) + ";" + (y-1));
+                }
+            }
+            if (x == 8 && y != 1) {
+                if (b.getPosition(x-1, y-1) != null && isOp(b.getPosition(x-1, y-1))) {
+                    posMoves.add((x - 1) + ";" + (y - 1));
+                }
+                Piece leftPiece = b.getPosition(x-1, y);
+                if (leftPiece != null && isOp(leftPiece) && leftPiece instanceof Pawn && ((Pawn)leftPiece).getMoveMF2() != null && ((Pawn)leftPiece).getMoveMF2() == b.getMoveNum() - 1) {
+                    posMoves.add((x-1) + ";" + (y-1));
                 }
             }
         }

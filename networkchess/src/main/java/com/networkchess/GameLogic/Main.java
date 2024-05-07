@@ -1,7 +1,5 @@
 
 package com.networkchess.GameLogic;
-
-import com.networkchess.GameLogic.pieces.*;
 /**
  * Main
  */
@@ -28,6 +26,8 @@ public class Main {
 
         // King kingTest = new King("white", "4;4", new Board());
         // System.out.println("King:" +kingTest.possibleMoves());
+
+        /* check en passant
 
         System.out.println();
 
@@ -58,6 +58,56 @@ public class Main {
         b.updateBoard(b.getPosition(5, 5), "6;6");
 
         System.out.println(b);
+        */
+
+        /* check the null pointer error
+        System.out.println();
+
+        Board b = new Board();
+
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(1, 2), "1;4");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(2, 7), "2;5");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(1, 4), "2;5");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(3, 7), "3;6");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(2, 5), "3;6");
+
+        System.out.println(b);
+        */
+
+        /* test duplicate piece if check comes from that move
+        System.out.println();
+
+        Board b = new Board();
+
+        b.updateBoard(b.getPosition(4, 2), "4;4");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(5, 2), "5;4");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(4, 7), "4;5");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(5, 7), "5;5");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(4, 8), "8;4");
+        System.out.println(b);
+
+        b.updateBoard(b.getPosition(6, 2), "6;4");
+        System.out.println(b);
+        */
+        
 
     }
 }
