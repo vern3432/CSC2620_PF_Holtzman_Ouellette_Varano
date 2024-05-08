@@ -29,6 +29,9 @@ public class Board {
 
     PromotionPopUp popUp;
 
+    // holds the position if there is an en passant square
+    private String enPassantPos = "-";
+
     // Instance of all the single pieces
     private King whiteKing;
     private King blackKing;
@@ -137,6 +140,15 @@ public class Board {
         return gameBoard[x-1][y-1];
     }
 
+    /**
+     * Gets if there is a possible en passant square on the board
+     * 
+     * @return either "-" or the possible en passant square
+     */
+    public String getEnPassantPos() {
+        return enPassantPos;
+    }
+
     // THIS IS GOING TO HAVE TO CHANGE DEPENDING ON HOW WE WANT THE USER TO MOVE THE PIECE
     /**
      * When a piece is moved the board should update
@@ -157,6 +169,7 @@ public class Board {
                     king.setCurrPosition(7+";"+1);
                     gameBoard[5][0] = rook;
                     rook.setCurrPosition(6+";"+1);
+                    this.enPassantPos = "-";
                 }
                 else
                 {
@@ -170,6 +183,7 @@ public class Board {
                     king.setCurrPosition(7+";"+8);
                     gameBoard[5][7] = rook;
                     rook.setCurrPosition(6+";"+8);
+                    this.enPassantPos = "-";
                 }
             }
             else if (newPosition.equals("O-O-O")) {
@@ -184,6 +198,7 @@ public class Board {
                     king.setCurrPosition(3+";"+1);
                     gameBoard[3][0] = rook;
                     rook.setCurrPosition(4+";"+1);
+                    this.enPassantPos = "-";
                 }
                 else
                 {
@@ -197,6 +212,7 @@ public class Board {
                     king.setCurrPosition(3+";"+8);
                     gameBoard[3][7] = rook;
                     rook.setCurrPosition(4+";"+8);
+                    this.enPassantPos = "-";
                 }
             }
             else 
@@ -251,6 +267,7 @@ public class Board {
                             ((Rook) piece).moved();
                         }
                         gameBoard[px][py] = null;
+                        this.enPassantPos = "-";
                         this.moveNum++;
                     }
 
@@ -263,20 +280,39 @@ public class Board {
 
                     if (checkCheck(piece.getColor())) {
                         JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
+                        gameBoard[nx][ny] = null;
                         gameBoard[px][py] = piece;
                         piece.setCurrPosition(prevPosition);
                         updateAttSquares();
                     }
                     else
                     {
+                        Boolean ePPFlag = true;
                         if (piece instanceof Pawn) {
                             ((Pawn) piece).moved();
+                            if (py + 2 == ny) {
+                                this.enPassantPos = px + ";" + (py + 1);
+                                ePPFlag = false;
+                            }
+                            if (py + 1 == ny) {
+                                if (px + 1 == nx) {
+                                    takenPieces.get(gameBoard[nx][py].getColor().toLowerCase()).add(gameBoard[nx][py]);
+                                    gameBoard[nx][py] = null;
+                                }
+                                if (px - 1 == nx) {
+                                    takenPieces.get(gameBoard[nx][py].getColor().toLowerCase()).add(gameBoard[nx][py]);
+                                    gameBoard[nx][py] = null;
+                                }
+                            }
                         }
                         if (piece instanceof King) {
                             ((King) piece).moved();
                         }
                         if (piece instanceof Rook) {
                             ((Rook) piece).moved();
+                        }
+                        if (ePPFlag) {
+                            this.enPassantPos = "-";
                         }
                         gameBoard[px][py] = null;
                         this.moveNum++;
