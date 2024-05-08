@@ -135,7 +135,7 @@ public class Board {
      */
     public Boolean updateBoard(Piece piece, String newPosition) {
         if (piece.movePos(newPosition)) {  
-            if (newPosition.equals("O-O")) {
+            if (piece instanceof King && (newPosition.equals("7;1") || newPosition.equals("7;8"))) {
                 if (piece.getColor().equals("white")) {
                     Piece king = gameBoard[4][0];
                     Piece rook = gameBoard[7][0];
@@ -164,7 +164,7 @@ public class Board {
                     return true;
                 }
             }
-            else if (newPosition.equals("O-O-O")) {
+            else if (piece instanceof King && (newPosition.equals("3;1") || newPosition.equals("3;1"))) {
                 if (piece.getColor().equals("white")) {
                     Piece king = gameBoard[4][0];
                     Piece rook = gameBoard[0][0];
@@ -217,12 +217,15 @@ public class Board {
                     }
                     else
                     {
-                        
+                        gameBoard[nx][ny] = new Queen(piece.getColor(), (nx+1)+";"+(ny+1), this);
                         // This is where the gui would need to be called
 
-                        this.promotionFlag = true;
-                        System.out.println("Promotion:");
-                        PromotionPopUp p = new PromotionPopUp(this);
+                        // this.promotionFlag = true;
+                        // System.out.println("Promotion:");
+                        // PromotionPopUp p = new PromotionPopUp(this);
+                        // p.setPiece((Pawn)piece);
+                        // p.setSize(800,800);
+                        // p.setVisible(true);
                         return true;
                     }
                 }
@@ -324,8 +327,8 @@ public class Board {
     public void updateBoard(Pawn p, Piece np) {
 
         String[] xy = p.getCurrPosition().split(";");
-        Integer x = Integer.valueOf(xy[0]);
-        Integer y = Integer.valueOf(xy[1]);
+        Integer x = Integer.valueOf(xy[0])-1;
+        Integer y = Integer.valueOf(xy[1])-1;
         
         gameBoard[x][y] = np;
         this.moveNum++;

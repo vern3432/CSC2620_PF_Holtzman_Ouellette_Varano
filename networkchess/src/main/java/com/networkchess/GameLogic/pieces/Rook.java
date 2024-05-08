@@ -45,10 +45,6 @@ public class Rook extends Piece {
      */
     @Override
     public LinkedList<String> possibleMoves() {
-        String[] xy = this.getCurrPosition().split(";");
-        Integer x = Integer.valueOf(xy[0]);
-        Integer y = Integer.valueOf(xy[1]);
-
 
         LinkedList<String> posMoves = new LinkedList<>();
 

@@ -76,10 +76,22 @@ public class King extends Piece {
             posMoves.add((x-1)+";"+(y+1));
         }
         if (queenSideCastle()) {
-            posMoves.add("O-O-O");
+            if (getColor().equals("white")) {
+                posMoves.add("3;1");
+            }
+            else
+            {
+                posMoves.add("3;8");
+            }
         }
         if (kingSideCastle()) {
-            posMoves.add("O-O");
+            if (getColor().equals("white")) {
+                posMoves.add("7;1");
+            }
+            else
+            {
+                posMoves.add("7;8");
+            }
         }
 
         return posMoves;
