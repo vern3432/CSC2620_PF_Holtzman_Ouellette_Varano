@@ -219,6 +219,8 @@ public class Board {
                         // This is where the gui would need to be called
 
                         this.promotionFlag = true;
+                        System.out.println("Promotion:");
+                        PromotionPopUp p = new PromotionPopUp(this);
                         return true;
                     }
                 }
