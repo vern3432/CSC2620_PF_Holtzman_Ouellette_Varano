@@ -123,8 +123,6 @@ public class ViewController extends JFrame {
         //add game buttons to east(this may be changed just easy)
         this.add(gameButtons,BorderLayout.EAST);
 
-        //FOR TESTING create game automatically to save time while testing
-        //REMOVE LATER!!!
         addGame("Test game");
     }
 
@@ -168,15 +166,10 @@ public class ViewController extends JFrame {
         revalidate();
     }
 
-    private void sendSurrender(){
-
-
-    }
-
+    /**
+     * Gives up the current game(model) being viewed
+     */
     private void giveUpGame() {
-        sendSurrender();
-        System.out.println("Give Up selected");
-        JOptionPane.showMessageDialog(this, "You have given up the game.");
-        // Additional logic to handle the surrender
+        currGame.handleSurrender();
     }
 }
