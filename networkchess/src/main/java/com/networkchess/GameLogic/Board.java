@@ -107,6 +107,24 @@ public class Board {
         return enPassantPos;
     }
 
+    /**
+     * gets if there is a pawn that has the ability to promote
+     * 
+     * @return promotion flag variable
+     */
+    public Boolean getPromotionFlag() {
+        return promotionFlag;
+    }
+
+    /**
+     * sets the promotion flag to false
+     * 
+     * @param promotionFlag
+     */
+    public void changePromotionFlag() {
+        this.promotionFlag = false;
+    }
+
     // THIS IS GOING TO HAVE TO CHANGE DEPENDING ON HOW WE WANT THE USER TO MOVE THE PIECE
     /**
      * When a piece is moved the board should update
