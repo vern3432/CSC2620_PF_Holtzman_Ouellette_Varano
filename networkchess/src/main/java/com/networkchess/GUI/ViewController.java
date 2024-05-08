@@ -56,8 +56,6 @@ public class ViewController extends JFrame {
      * Thread pool we will use to execute tasks on, put threads into a pool and uses next available one
      */
     private ExecutorService pools;
-
-
     /**
      * Constructor creates ViewController as JFrame
      */
@@ -68,7 +66,7 @@ public class ViewController extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         // Build the first menu.
-        JMenu menu = new JMenu("File");
+        JMenu menu = new JMenu("Game Option");
         menuBar.add(menu);
 
         // Menu item for returning to the main menu
@@ -92,6 +90,14 @@ public class ViewController extends JFrame {
         JMenuItem menuItemTestGame = new JMenuItem("Test Game");
         menuItemTestGame.addActionListener(e -> addGame("Test game"));
         menu.add(menuItemTestGame);
+
+        // Add a new menu for the current section
+        JMenu currentSectionMenu = new JMenu("Current Session");
+        menuBar.add(currentSectionMenu);
+
+        JMenuItem giveUpItem = new JMenuItem("Give Up");
+        giveUpItem.addActionListener(e -> giveUpGame());
+        currentSectionMenu.add(giveUpItem);
 
         // Set the menu bar
         setJMenuBar(menuBar);
@@ -162,4 +168,15 @@ public class ViewController extends JFrame {
         revalidate();
     }
 
+    private void sendSurrender(){
+
+
+    }
+
+    private void giveUpGame() {
+        sendSurrender();
+        System.out.println("Give Up selected");
+        JOptionPane.showMessageDialog(this, "You have given up the game.");
+        // Additional logic to handle the surrender
+    }
 }
