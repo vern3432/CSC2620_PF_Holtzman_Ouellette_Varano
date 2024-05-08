@@ -475,4 +475,20 @@ public class Model extends JPanel implements Runnable {
         Message move = new Message.Builder("MOVE").setMove(newX + ";" + newY, pieceX, pieceY).build();
         send.println(move.serialize());
     }
+
+    /**
+     * Handles the surrender option from the viewController
+     * Sends a message to the server to end the game
+     */
+    public void handleSurrender() {
+        endGame = true;
+        isTurn = false;
+
+        Message surrenderMessage = new Message.Builder("GAME").setGame(false,color +
+                " Player has surrendered you win!").build();
+
+        send.println(surrenderMessage.serialize());
+
+        JOptionPane.showMessageDialog(this, "You have given up the game. You lose!");
+    }
 }
