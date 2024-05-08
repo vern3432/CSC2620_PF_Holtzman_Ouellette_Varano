@@ -1,6 +1,33 @@
 # CSC2620_PF_Holtzman_Ouellette_Varano
 Final Project  for Object Oriented Design
 
+We created a Java application to play chess over a network using a TCP connection to a central server. The clients use a GUI
+in order to play the game.
+
+Our code is divided into three packages
+- peiceLogic - Handles the logic of the board and pieces
+- [Net](#net-package) - Handles the server and related communication
+- GUI - Handles the GUI and client decisions 
+
+# Quick Start Guide
+## Creating Jar files and releases
+Please see releases for precompiled Jar files
+
+To create Jar files from sources
+```shell
+MVN add example 
+```
+## Server
+To start the server run the jar file
+
+```Shell
+java -jar ADD EXAMPLE
+```
+
+## Client 
+````Shell
+java -jar ADD Example
+````
 # Net Package
 The Net package is responsible for managing the Chess Server, which allows players to play a game with each other. It also holds the messages that our protocol uses to communicate. All protocol messages are JSON messages using the Merrimackutil library. 
 
@@ -21,14 +48,15 @@ There are two fields:
 "type" : "WELCOME",
 "color" : "white"
 }
-
+```
+```JSON
 {
 "type" : "WELCOME",
 "color" : "black"
 }
 ```
 
-### GANE - Message
+### GAME - Message
 The game message is used to convey information about the game such as the game being started or ended
 
 There are two fields
@@ -43,11 +71,19 @@ There are two fields
 "isRunning" : true,
 "reason" : "Both players have joined starting game good luck!"
 }
-
+```
+```JSON
 {
 "type" : "GAME",
 "isRunning" : false,
 "reason" : "Server encountered an error, please try again later"
+}
+```
+```JSON
+{
+   "type" : "GAME",
+   "isRunning" : false,
+   "reason" : "White has won the game"
 }
 ```
 
