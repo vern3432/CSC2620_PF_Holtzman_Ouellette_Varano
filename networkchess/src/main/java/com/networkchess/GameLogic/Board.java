@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  * Board
  */
 public class Board {
-
+    
     // The move number of the game
     private Integer moveNum = 1;
     // Stores the pieces that have been taken by color
@@ -318,6 +318,7 @@ public class Board {
      * @param np piece to promote the pawn too
     */
     public void updateBoard(Pawn p, Piece np) {
+
         String[] xy = p.getCurrPosition().split(";");
         Integer x = Integer.valueOf(xy[0]);
         Integer y = Integer.valueOf(xy[1]);
