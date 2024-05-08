@@ -215,6 +215,9 @@ public class Board {
                     }
                     else
                     {
+                        
+                        // This is where the gui would need to be called
+
                         this.promotionFlag = true;
                         return true;
                     }
