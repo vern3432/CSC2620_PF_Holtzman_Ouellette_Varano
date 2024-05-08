@@ -159,7 +159,7 @@ public class King extends Piece {
         Board b = getCurrBoard();
         Rook rookQS = null;
         if (getColor().equals("white")) {
-            rookQS = (Rook) b.getPosition(8, 1);
+            rookQS = (Rook) b.getPosition(1, 1);
             if (!rookQS.getMovedYet() &&
                 b.getPosition(2,1) == null &&
                 b.getPosition(3,1) == null &&
@@ -177,7 +177,7 @@ public class King extends Piece {
         }
         else
         {
-            rookQS = (Rook) b.getPosition(8, 8);
+            rookQS = (Rook) b.getPosition(1, 8);
             if (!rookQS.getMovedYet() &&
                 b.getPosition(2,8) == null &&
                 b.getPosition(3,8) == null &&
@@ -201,7 +201,7 @@ public class King extends Piece {
         Board b = getCurrBoard();
         Rook rookKS = null;
         if (getColor().equals("white")) {
-            rookKS = (Rook) b.getPosition(1, 1);
+            rookKS = (Rook) b.getPosition(8, 1);
             if (!rookKS.getMovedYet() &&
                 b.getPosition(6,1) == null &&
                 b.getPosition(7,1) == null) {
@@ -217,7 +217,7 @@ public class King extends Piece {
         }
         else
         {
-            rookKS = (Rook) b.getPosition(1, 8);
+            rookKS = (Rook) b.getPosition(8, 8);
             if (!rookKS.getMovedYet() &&
                 b.getPosition(6,1) == null &&
                 b.getPosition(7,1) == null) {
