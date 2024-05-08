@@ -207,7 +207,7 @@ public class Board {
                 Integer ny = Integer.valueOf(nxy[1]) - 1;
 
                 gameBoard[px][py] = null;
-                if (piece instanceof Pawn && ((piece.getColor().equals("white") && ny == 8) || (piece.getColor().equals("black") && ny == 1))) {
+                if (piece instanceof Pawn && ((piece.getColor().equals("white") && ny == 7) || (piece.getColor().equals("black") && ny == 0))) {
                     System.out.println("Promotion First If Statement:");
 
                     if (checkCheck(piece.getColor())) {
@@ -456,7 +456,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Queen(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(qButton);
@@ -467,7 +466,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Rook(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(rButton);
@@ -478,7 +476,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Knight(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(kButton);
@@ -489,7 +486,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Bishop(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(bButton);
