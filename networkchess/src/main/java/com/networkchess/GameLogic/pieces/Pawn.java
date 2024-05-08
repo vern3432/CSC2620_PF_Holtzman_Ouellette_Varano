@@ -66,17 +66,17 @@ public class Pawn extends Piece {
 
             // Movement on the board with the pawn
             if (!movedYet) {
-                if ((y+2) <= 7 && (b.getPosition(x, y+2) == null && b.getPosition(x, y+1) == null)) {
+                if ((y+2) <= 8 && (b.getPosition(x, y+2) == null && b.getPosition(x, y+1) == null)) {
                     posMoves.add(x+";"+(y+2));
                     this.moveMF2 = b.getMoveNum();
                 }
-                if (y+1 <=7 && b.getPosition(x, y+1) == null) {
+                if (y+1 <=8 && b.getPosition(x, y+1) == null) {
                     posMoves.add(x+";"+(y+1));
                 }
             }
             else
             {
-                if (y+1 <=7 && b.getPosition(x, y+1) == null) {
+                if (y+1 <=8 && b.getPosition(x, y+1) == null) {
                     posMoves.add(x+";"+(y+1));
                 }
             }
