@@ -456,7 +456,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Queen(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(qButton);
@@ -467,7 +466,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Rook(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(rButton);
@@ -478,7 +476,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Knight(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(kButton);
@@ -489,7 +486,6 @@ public class Board {
                 public void actionPerformed(ActionEvent e) {
                     promotedToPiece = new Bishop(piece.getColor(), piece.getCurrPosition(), piece.getCurrBoard());
                     b.updateBoard(piece, promotedToPiece);
-                    piece = null;
                 }
             });
             buttonPanel.add(bButton);

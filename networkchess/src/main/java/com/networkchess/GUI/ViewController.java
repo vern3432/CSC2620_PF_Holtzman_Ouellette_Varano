@@ -108,7 +108,7 @@ public class ViewController extends JFrame {
         //we should move this to config file later
         threads = 10;
         serverAddr = "127.0.0.1";
-        serverPort = 5000;
+        serverPort = 5001;
 
         //create Thread pool we will use
         pools = Executors.newFixedThreadPool(threads);
