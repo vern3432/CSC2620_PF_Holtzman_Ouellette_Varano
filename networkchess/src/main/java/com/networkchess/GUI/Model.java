@@ -271,12 +271,6 @@ public class Model extends JPanel implements Runnable {
                 //if null add placeholder button
                 else {
                     pieceButton = new JButton("             ");
-                    pieceButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            JOptionPane.showMessageDialog(null,"Feature not added cant move nothing");
-                        }
-                    });
                 }
 
                 //add piece button in position
@@ -385,12 +379,6 @@ public class Model extends JPanel implements Runnable {
                 //if null add placeholder button
                 else {
                     pieceButton = new JButton("             ");
-                    pieceButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            JOptionPane.showMessageDialog(null,"Feature not added cant move nothing");
-                        }
-                    });
                 }
 
                 //add piece button in position
