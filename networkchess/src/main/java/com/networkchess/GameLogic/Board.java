@@ -208,6 +208,8 @@ public class Board {
 
                 gameBoard[px][py] = null;
                 if (piece instanceof Pawn && ((piece.getColor().equals("white") && ny == 7) || (piece.getColor().equals("black") && ny == 0))) {
+                    System.out.println("Promotion First If Statement:");
+
                     if (checkCheck(piece.getColor())) {
                         JOptionPane.showMessageDialog(new JPanel(), "That is not a possible move. You will still/be in check.");
                         gameBoard[px][py] = piece;
