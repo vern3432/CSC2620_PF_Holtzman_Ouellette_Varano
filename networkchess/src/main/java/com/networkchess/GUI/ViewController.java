@@ -62,6 +62,32 @@ public class ViewController extends JFrame {
     public ViewController() {
         super("SAS Chess"); //Sean Aidan Seth
 
+        //use border layout
+        this.setLayout(new BorderLayout());
+
+        //set the center panel to a card layout and add it to the center
+        chessPanel.setLayout(centerCard);
+        this.add(chessPanel, BorderLayout.CENTER);
+
+        //create main center menu and create add game button
+        StartUp startup = new StartUp();
+        JButton newGameButton = new JButton("New Game");
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = JOptionPane.showInputDialog("Welcome enter the name of this game");
+                if (input != null && !games.containsKey(input)) {
+                    addGame(input);
+                } else if (input != null) {
+                    JOptionPane.showMessageDialog(null, "Game name is already taken please try again");
+                }
+            }
+        });
+        startup.setNewGameButton(newGameButton);
+
+        //add menu to chessPanel
+        chessPanel.add("_menu",startup);
+
         // Create the menu bar
         JMenuBar menuBar = new JMenuBar();
 
@@ -99,6 +125,25 @@ public class ViewController extends JFrame {
         giveUpItem.addActionListener(e -> giveUpGame());
         currentSectionMenu.add(giveUpItem);
 
+        //add menu item for removing game
+        JMenuItem removeGameMenu = new JMenuItem("Remove Game");
+        removeGameMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = JOptionPane.showInputDialog("Welcome enter the name of this game");
+                if (input == null) {
+                    return;
+                }
+
+                if (!games.containsKey(input)) {
+                    JOptionPane.showMessageDialog(null, "Game name does not exist");
+                }
+
+                removeGame(input);
+            }
+        });
+        currentSectionMenu.add(removeGameMenu);
+
         // Set the menu bar
         setJMenuBar(menuBar);
 
@@ -106,24 +151,15 @@ public class ViewController extends JFrame {
         // (rest of the constructor)
 
         //we should move this to config file later
-        threads = 10;
+        threads = 3;
         serverAddr = "127.0.0.1";
         serverPort = 5001;
 
         //create Thread pool we will use
         pools = Executors.newFixedThreadPool(threads);
 
-        //use border layout
-        this.setLayout(new BorderLayout());
-
-        //set the center panel to a card layout and add it to the center
-        chessPanel.setLayout(centerCard);
-        this.add(chessPanel, BorderLayout.CENTER);
-
         //add game buttons to east(this may be changed just easy)
         this.add(gameButtons,BorderLayout.EAST);
-
-        addGame("Test game");
     }
 
     /**
@@ -132,7 +168,7 @@ public class ViewController extends JFrame {
      */
     private void addGame(String name) {
         //add game to list of games
-        Model newGameModel = new Model(name, serverAddr, serverPort);
+        Model newGameModel = new Model(name, serverAddr, serverPort, this);
         pools.execute(newGameModel);
 
         games.put(name, newGameModel);
@@ -167,9 +203,65 @@ public class ViewController extends JFrame {
     }
 
     /**
+     * Removes a game from our gui
+     * @param name String of name
+     */
+    public void removeGame(String name) {
+        //surrender game
+        currGame = games.get(name);
+        currGame.handleSurrender();
+        //remove game from hashmap
+        games.remove(name);
+
+        //remove all game buttons
+        gameButtons.removeAll();
+
+        //add each game from our hashmap back to GUI
+        for (String game : games.keySet()) {
+            System.out.println("adding game " + game);
+            //button to view game
+            JButton newGameButton = new JButton(game);
+            //when pressed show game
+            newGameButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //show that current game in the center
+                    centerCard.show(chessPanel,game);
+                    //set currGame to that game
+                    currGame = games.get(game);
+                }
+            });
+
+            //add one row to button layout
+            gameButtonsLayout.setRows(gameButtonsLayout.getRows()+1);
+            //add new button to side bar
+            gameButtons.add(newGameButton);
+
+            centerCard.show(chessPanel,game);
+            currGame = games.get(game);
+        }
+
+        if (games.isEmpty()) {
+            System.out.println("no games");
+            centerCard.show(chessPanel,"_menu");
+        }
+
+        System.out.println(games);
+        revalidate();
+    }
+
+
+    /**
      * Gives up the current game(model) being viewed
      */
     private void giveUpGame() {
+        if (currGame == null) {
+            JOptionPane.showMessageDialog(this,"No game to end");
+            return;
+        }
+
         currGame.handleSurrender();
+        removeGame(currGame.getName());
+
     }
 }

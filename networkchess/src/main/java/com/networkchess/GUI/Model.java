@@ -56,7 +56,7 @@ public class Model extends JPanel implements Runnable {
     /**
      * Output stream to server
      */
-    private PrintWriter send;
+    private PrintWriter send = null;
     /**
      * Boolean for if we should end the game
      *
@@ -71,14 +71,16 @@ public class Model extends JPanel implements Runnable {
     JPanel gameJpanel = new JPanel(new GridBagLayout());
     private HashMap<String, JButton> buttonMap = new HashMap<>();
 
+    private ViewController viewController;
     /**
      * Creates model for internal representation of chess game
      * @param _name - name given to game
      */
-    public Model(String _name, String _serverAddr, int _serverPort) {
+    public Model(String _name, String _serverAddr, int _serverPort, ViewController _viewController) {
         name = _name;
         serverAddr = _serverAddr;
         serverPort = _serverPort;
+        viewController = _viewController;
 
         loadPieceIcons();
 
@@ -176,6 +178,8 @@ public class Model extends JPanel implements Runnable {
                         endGame = !recvMessage.isRunning();
 
                         if (endGame) {
+                            SwingUtilities.invokeLater(VictoryPopup::new);
+                            viewController.removeGame(name);
                             JOptionPane.showMessageDialog(null, "Game has ended \n"
                                     + recvMessage.getReason());
                             return;
@@ -481,6 +485,10 @@ public class Model extends JPanel implements Runnable {
      * Sends a message to the server to end the game
      */
     public void handleSurrender() {
+        if (endGame) {
+            return;
+        }
+
         endGame = true;
         isTurn = false;
 
@@ -490,5 +498,10 @@ public class Model extends JPanel implements Runnable {
         send.println(surrenderMessage.serialize());
 
         JOptionPane.showMessageDialog(this, "You have given up the game. You lose!");
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

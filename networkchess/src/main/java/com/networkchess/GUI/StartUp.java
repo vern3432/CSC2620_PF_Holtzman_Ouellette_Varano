@@ -10,13 +10,10 @@ import java.awt.Image;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.net.URL;
-public class StartUp extends JFrame implements ActionListener {
+public class StartUp extends JPanel {
     private JButton newGameButton;
 
     public StartUp() {
-        // Set the title of the JFrame
-        super("StartUp - Network Chess");
-
         // Load the banner image from resources
         URL imageUrl = getClass().getResource("/v1.jpg");
         ImageIcon imageIcon = new ImageIcon(imageUrl);
@@ -27,7 +24,6 @@ public class StartUp extends JFrame implements ActionListener {
 
         // Initialize the button and add ActionListener
         newGameButton = new JButton("Start New Game");
-        newGameButton.addActionListener(this);
 
         // Layout configuration
         this.setLayout(new BorderLayout());
@@ -35,43 +31,22 @@ public class StartUp extends JFrame implements ActionListener {
         // Add the image and button to the JFrame
         this.add(imageLabel, BorderLayout.NORTH);
         this.add(newGameButton, BorderLayout.CENTER);
-        this.setSize(1400, 1000); // Adjusted size to better fit the resized image and button
-        // Basic JFrame setup
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 700); // Adjusted size to better fit the resized image and button
-        this.setVisible(true);
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == newGameButton) {
-            // Open a new ViewController window
-            // try {
-            //     UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
-            // } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-            //         | UnsupportedLookAndFeelException e1) {
-            //     // TODO Auto-generated catch block
-            //     e1.printStackTrace();
-            // }
-
-            ViewController vc = new ViewController();
-            vc.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only the VC window on close
-            vc.setSize(800, 800); // Size of the game window
-            vc.setVisible(true);
+        try {
+            UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {            // try {
-            //     UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
-            // } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-            //         | UnsupportedLookAndFeelException e1) {
-            //     // TODO Auto-generated catch block
-            //     e1.printStackTrace();
-            // }
-        // Set look and feel to be the system default for aesthetics
-        // Create and show the StartUp GUI
-        UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
-        new StartUp();
+    public void setNewGameButton(JButton button) {
+        newGameButton = button;
+        this.add(newGameButton, BorderLayout.CENTER);
     }
 }
