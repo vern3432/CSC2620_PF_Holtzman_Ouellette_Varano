@@ -141,7 +141,7 @@ When user makes a move, this is done in the ActionListener for each piece button
 ![image2](https://github.com/vern3432/CSC2620_PF_Holtzman_Ouellette_Varano/assets/111017456/cb331cb1-265b-4e6c-8fa1-e7f626897ce2)
 Usage:
 1. Players may select a piece, represented by a gridlayout of buttons. 
-2. One selected, available moves by piece are highlighted, and can then be selected.
+2. Once selected, available moves by given piece are highlighted, and can then be selected to begin move.
 3. A player can select one of these highlighted spaces, automatically sending the move following  confirmation. 
 
 
