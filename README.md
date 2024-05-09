@@ -121,13 +121,27 @@ The Server connection is done in the run method so it can be handled independent
     1. If it is a move message, get the piece at pieceX and pieceY keys then update the board with that piece along with the the new position from move key. Then set isTurn flag to true.
     2. If it is a GAME message, if isRunning key is set to false set endGame flag to true, else set endGame to false. Then display the reason key as an option pane to the user.
 
-When user makes a move, this is done in the ActionListener for each piece button.
-
-*This is subject to change as GUI improves*
-
 *Premoving may provide a better experience for making moves while it is not our turn*
 1. Check if isTurn flag is true, piece is our color and if move is possible. If all cases are true so proceed
 2. Update our board with the move
 3. Send the move to the server on the output Stream
 4. Set isTurn to false
 5. Update our view of the board
+
+When user makes a move, this is done in the ActionListener for each piece button.
+
+## Client Gui: 
+
+### StartUp Menu:
+
+![image1](https://github.com/vern3432/CSC2620_PF_Holtzman_Ouellette_Varano/assets/111017456/1bbd1ce7-c185-4027-8ec9-e664e44b098f)
+
+#### Board:
+
+![image2](https://github.com/vern3432/CSC2620_PF_Holtzman_Ouellette_Varano/assets/111017456/cb331cb1-265b-4e6c-8fa1-e7f626897ce2)
+Usage:
+1. Players may select a piece, represented by a gridlayout of buttons. 
+2. One selected, available moves by piece are highlighted, and can then be selected.
+3. A player can select one of these highlighted spaces, automatically sending the move following  confirmation. 
+
+
