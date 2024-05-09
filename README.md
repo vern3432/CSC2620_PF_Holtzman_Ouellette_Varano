@@ -15,18 +15,18 @@ Please see releases for precompiled Jar files
 
 To create Jar files from sources
 ```shell
-MVN add example 
+mvn clean package 
 ```
 ## Server
 To start the server run the jar file
 
 ```Shell
-java -jar ADD EXAMPLE
+java -jar driver.jar
 ```
 
 ## Client 
 ````Shell
-java -jar ADD Example
+java -jar startup.jar
 ````
 # Net Package
 The Net package is responsible for managing the Chess Server, which allows players to play a game with each other. It also holds the messages that our protocol uses to communicate. All protocol messages are JSON messages using the Merrimackutil library. 
