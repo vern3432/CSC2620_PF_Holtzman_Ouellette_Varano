@@ -1,5 +1,6 @@
 # CSC2620_PF_Holtzman_Ouellette_Varano
-Final Project  for Object Oriented Design
+Final Project for CSC 2620 Object-Oriented Design by Sean Ouellette, Seth Holtzman, and Aidan Varano. 
+
 
 We created a Java application to play chess over a network using a TCP connection to a central server. The clients use a GUI
 in order to play the game.
