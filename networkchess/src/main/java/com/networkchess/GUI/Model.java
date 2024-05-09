@@ -464,7 +464,6 @@ public class Model extends JPanel implements Runnable {
             int newY = Integer.parseInt(parts[1]);
 
             if (board.updateBoard(selectedPiece, newX + ";" + newY)) {
-                System.out.println(selectedPiece);
                 sendMoveToServer(newX, newY, pieceX, pieceY);
                 this.isTurn = false;
                 updateGame();
