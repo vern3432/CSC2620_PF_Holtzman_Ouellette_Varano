@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 /**
  * Board
@@ -135,7 +136,7 @@ public class Board {
      */
     public Boolean updateBoard(Piece piece, String newPosition) {
         if (piece.movePos(newPosition)) {  
-            if (piece instanceof King && (newPosition.equals("7;1") || newPosition.equals("7;8"))) {
+            if (piece instanceof King && ((King) piece).getMovedYet() && (newPosition.equals("7;1") || newPosition.equals("7;8"))) {
                 if (piece.getColor().equals("white")) {
                     Piece king = gameBoard[4][0];
                     Piece rook = gameBoard[7][0];
@@ -164,7 +165,7 @@ public class Board {
                     return true;
                 }
             }
-            else if (piece instanceof King && (newPosition.equals("3;1") || newPosition.equals("3;1"))) {
+            else if (piece instanceof King && ((King) piece).getMovedYet() && (newPosition.equals("3;1") || newPosition.equals("3;8"))) {
                 if (piece.getColor().equals("white")) {
                     Piece king = gameBoard[4][0];
                     Piece rook = gameBoard[0][0];
@@ -218,22 +219,16 @@ public class Board {
                     else
                     {
                         gameBoard[nx][ny] = new Queen(piece.getColor(), (nx+1)+";"+(ny+1), this);
-                        // This is where the gui would need to be called
-
-                        // this.promotionFlag = true;
-                        // System.out.println("Promotion:");
-                        // PromotionPopUp p = new PromotionPopUp(this);
-                        // p.setPiece((Pawn)piece);
-                        // p.setSize(800,800);
-                        // p.setVisible(true);
                         return true;
                     }
                 }
                 else if (gameBoard[nx][ny] != null) {
                     Piece takenP = gameBoard[nx][ny];
 
+                    gameBoard[nx][ny] = null;
                     gameBoard[nx][ny] = piece;
                     piece.setCurrPosition(newPosition);
+                    attSquares.remove(takenP);
                     updateAttSquares();
 
                     if (checkCheck(piece.getColor())) {
@@ -436,10 +431,11 @@ public class Board {
         return boardPositions;
     }
 
-    public class PromotionPopUp extends JFrame {
+    public class PromotionPopUp extends JPopupMenu {
 
         private Piece promotedToPiece;
         private Pawn piece;
+        private JPopupMenu window = this;
 
         public PromotionPopUp(Board b) {
             super("Pawn Promotion");

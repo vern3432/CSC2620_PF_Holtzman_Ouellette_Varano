@@ -24,6 +24,10 @@ public class King extends Piece {
 
     }
 
+    public Boolean getMovedYet() {
+        return movedYet;
+    }
+
     /**
      * Takes in where the user wants to move the piece too and makes the move if its a legal move
      * 
